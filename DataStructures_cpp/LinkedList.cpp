@@ -68,6 +68,10 @@ class LinkedList{
         }
 
         void Display(){
+            if (head == nullptr) {
+                std::cout << "LinkedList is empty" << std::endl;
+                return;
+            }
             Node<int>* current = head;
             while (current->GetNext() != nullptr) {
                 std::cout << "[" << current->GetData() << "] -> ";
