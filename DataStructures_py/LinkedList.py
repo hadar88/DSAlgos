@@ -122,6 +122,22 @@ def IsEmpty(linked_list):
     """
     return lib.IsEmpty_linkedlist(linked_list)
 
+# Size
+lib.Size_linkedlist.argtypes = [ctypes.c_void_p]
+lib.Size_linkedlist.restype = ctypes.c_int
+
+def Size(linked_list):
+    """
+    Get the number of elements in the linked list.
+    
+    Args:
+        linked_list (ctypes.c_void_p): Pointer to the linked list structure.
+
+    Returns:
+        int: The number of elements in the linked list.
+    """
+    return lib.Size_linkedlist(linked_list) 
+
 # Display
 lib.Display_linkedlist.argtypes = [ctypes.c_void_p]
 lib.Display_linkedlist.restype = None

@@ -67,6 +67,21 @@ class LinkedList{
             return head == nullptr;
         }
 
+        int Size(){
+            if (head == nullptr)
+                return 0;
+
+            int size = 0;
+            
+            Node<int>* current = head;
+            while(current != nullptr){
+                size++;
+                current = current->GetNext();
+            }
+
+            return size;
+        }
+
         void Display(){
             if (head == nullptr) {
                 std::cout << "LinkedList is empty" << std::endl;

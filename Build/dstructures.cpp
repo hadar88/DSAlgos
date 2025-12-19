@@ -104,6 +104,10 @@ extern "C" {
         return list->IsEmpty();
     }
 
+    int Size_linkedlist(LinkedList* list){
+        return list->Size();
+    }
+
     void Display_linkedlist(LinkedList* list){
         list->Display();
     }
