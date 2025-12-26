@@ -59,6 +59,22 @@ def IsEmpty(tree):
     """
     return lib.IsEmpty_AVLTree(tree)
 
+# Size
+lib.Size_AVLTree.argtypes = [ctypes.c_void_p]
+lib.Size_AVLTree.restype = ctypes.c_int
+
+def Size(tree):
+    """
+    Get the number of nodes in the AVL tree.
+
+    Args:
+        tree (ctypes.c_void_p): Pointer to the AVL tree structure.
+        
+    Returns:
+        int: The number of nodes in the tree.
+    """
+    return lib.Size_AVLTree(tree)
+
 # GetRoot
 lib.GetRoot_AVLTree.argtypes = [ctypes.c_void_p]
 lib.GetRoot_AVLTree.restype = ctypes.c_void_p

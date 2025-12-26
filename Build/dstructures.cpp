@@ -283,6 +283,10 @@ extern "C" {
         return tree->IsEmpty();
     }
 
+    int Size_AVLTree(AVLTree* tree){
+        return tree->Size();
+    }
+
     TreeNode<int>* GetRoot_AVLTree(AVLTree* tree){
         return tree->GetRoot();
     }
