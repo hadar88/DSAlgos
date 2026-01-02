@@ -61,6 +61,22 @@ def IsEmpty(tree):
     """
     return lib.IsEmpty_BinarySearchTree(tree)
 
+# Size
+lib.Size_BinarySearchTree.argtypes = [ctypes.c_void_p]
+lib.Size_BinarySearchTree.restype = ctypes.c_int
+
+def Size(tree):
+    """
+    Get the number of nodes in the binary search tree.
+
+    Args:
+        tree (ctypes.c_void_p): Pointer to the BST structure.
+
+    Returns:
+        int: The number of nodes in the tree.
+    """
+    return lib.Size_BinarySearchTree(tree)
+
 # GetRoot
 lib.GetRoot_BinarySearchTree.argtypes = [ctypes.c_void_p]
 lib.GetRoot_BinarySearchTree.restype = ctypes.c_void_p

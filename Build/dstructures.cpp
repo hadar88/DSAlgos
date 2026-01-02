@@ -190,6 +190,10 @@ extern "C" {
         return tree->IsEmpty();
     }
 
+    int Size_BinarySearchTree(BinarySearchTree* tree){
+        return tree->Size();
+    }
+
     TreeNode<int>* GetRoot_BinarySearchTree(BinarySearchTree* tree){
         return tree->GetRoot();
     }

@@ -10,6 +10,16 @@ class BinarySearchTree{
             }
         }
 
+        int Size(TreeNode<int>* node){
+            if (node->GetRight() == nullptr && node->GetLeft() == nullptr)
+                return 1;
+            else if (node->GetRight() == nullptr)
+                return Size(node->GetLeft()) + 1;
+            else if (node->GetLeft() == nullptr)
+                return Size(node->GetRight()) + 1;
+            return Size(node->GetLeft()) + Size(node->GetRight()) + 1;
+        }
+
     public:
         BinarySearchTree(): root(nullptr) {}
 
@@ -19,6 +29,12 @@ class BinarySearchTree{
 
         bool IsEmpty(){
             return root == nullptr;
+        }
+
+        int Size(){
+            if (root == nullptr)
+                return 0;
+            return Size(root);
         }
 
         TreeNode<int>* GetRoot(){
