@@ -470,6 +470,10 @@ extern "C" {
         return new PriorityQueue();
     }
 
+    int IndexOf_PriorityQueue(PriorityQueue* pq, int key){
+        return pq->IndexOf(key);
+    }
+
     int GetSize_PriorityQueue(PriorityQueue* pq){
         return pq->GetSize();
     }

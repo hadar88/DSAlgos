@@ -42,6 +42,14 @@ class PriorityQueue{
     public:
         PriorityQueue(): A(QUEUE_MAX_LENGTH), size(0) {}
 
+        int IndexOf(int key){
+            for(int i = 0; i < size; i++){
+                if(A[i] == key)
+                    return i;
+            }
+            return -1;
+        }
+
         int GetSize(){
             return size;
         }
@@ -98,6 +106,4 @@ class PriorityQueue{
             }
             std::cout << std::endl;
         }
-
-
 };

@@ -41,6 +41,23 @@ def Destroy(pq):
     if pq:
         lib.Destroy_PriorityQueue(pq)
 
+# IndexOf
+lib.IndexOf_PriorityQueue.argtypes = [ctypes.c_void_p, ctypes.c_int]
+lib.IndexOf_PriorityQueue.restype = ctypes.c_int
+
+def IndexOf(pq, key):
+    """
+    Find the index of a given key in the priority queue.
+
+    Args:
+        pq (ctypes.c_void_p): Pointer to the priority queue structure.
+        key (int): The integer value to search for.
+
+    Returns:
+        int: The index of the key if found, otherwise -1.
+    """
+    return lib.IndexOf_PriorityQueue(pq, key)
+
 # GetSize
 lib.GetSize_PriorityQueue.argtypes = [ctypes.c_void_p]
 lib.GetSize_PriorityQueue.restype = ctypes.c_int
