@@ -604,5 +604,3 @@ extern "C" {
         delete graph;
     }
 }
-// run this to build the library:
-// g++ -shared -fPIC -o dstructures.so dstructures.cpp
