@@ -210,17 +210,21 @@ class Graph{
             }
         }
 
-        void BFS(int s){
+        std::tuple<std::map<int, std::string>, std::map<int, int>, std::map<int, GraphVertex*>> BFS(int s){
+            std::map<int, std::string> colors;
+            std::map<int, int> distances;
+            std::map<int, GraphVertex*> parents;
+
             for(GraphVertex* v : graph){
                 if(v->GetData() == s){
-                    v->SetColor_BFS("gray");
-                    v->SetDistance_BFS(0);
+                    colors[v->GetData()] = "gray";
+                    distances[v->GetData()] = 0;
                 }
                 else{
-                    v->SetColor_BFS("white");
-                    v->SetDistance_BFS(INT_MAX);
+                    colors[v->GetData()] = "white";
+                    distances[v->GetData()] = INT_MAX;
                 }
-                v->SetParent_BFS(nullptr);
+                parents[v->GetData()] = nullptr;
             }
             
             Queue* Q = new Queue();
@@ -233,18 +237,20 @@ class Graph{
                 Node<int>* v = GetNeighbors(u)->GetHead(); 
                 while(v != nullptr){
                     GraphVertex* v_vertex = GetVertex(v->GetData());
-                    if(v_vertex->GetColor_BFS() == "white"){
-                        v_vertex->SetColor_BFS("gray");
-                        v_vertex->SetDistance_BFS(u_vertex->GetDistance_BFS() + 1);
-                        v_vertex->SetParent_BFS(u_vertex);
+                    if(colors[v->GetData()] == "white"){
+                        colors[v_vertex->GetData()] = "gray";
+                        distances[v_vertex->GetData()] = distances[u] + 1;
+                        parents[v_vertex->GetData()] = u_vertex;
                         Q->Enqueue(v->GetData());
                     }
                     v = v->GetNext();
                 }
 
-                u_vertex->SetColor_BFS("black");
+                colors[u] = "black";
             }
             delete Q;
+
+            return {colors, distances, parents};
         }
 
         void PrintPath(int s, int v){
@@ -253,7 +259,7 @@ class Graph{
                 return;
             }
             
-            BFS(s);
+            auto [colors, distances, parents] = BFS(s);
             
             LinkedList* l = new LinkedList();
 
@@ -261,7 +267,7 @@ class Graph{
             while(v_vertex != nullptr){
                 l->Insert(v_vertex->GetData());
 
-                v_vertex = v_vertex->GetParent_BFS();
+                v_vertex = parents[v_vertex->GetData()];
             }
 
             Node<int>* current = l->GetHead();
@@ -286,10 +292,10 @@ class Graph{
                 throw std::invalid_argument("One or both vertices do not exist");
             }
 
-            BFS(s);
+            auto [colors, distances, parents] = BFS(s);
 
             GraphVertex* t_vertex = GetVertex(t);
-            return t_vertex->GetDistance_BFS();
+            return distances[t_vertex->GetData()];
         }
 
         LinkedList* GetReachableVertices(int s){
@@ -297,12 +303,12 @@ class Graph{
                 throw std::invalid_argument("Vertex does not exist");
             }
 
-            BFS(s);
+            auto [colors, distances, parents] = BFS(s);
 
             LinkedList* l = new LinkedList();
 
             for(GraphVertex* v : graph)
-                if(v->GetDistance_BFS() != INT_MAX && v->GetData() != s)
+                if(distances[v->GetData()] != INT_MAX && v->GetData() != s)
                     l->InsertLast(v->GetData());
             
             return l;

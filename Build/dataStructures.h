@@ -1,6 +1,8 @@
 using namespace std;
 
+#include <map>
 #include <ctime>
+#include <tuple>
 #include <vector>
 #include <climits>
 #include <iostream>
