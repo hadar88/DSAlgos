@@ -7,7 +7,6 @@ both directed and undirected graphs with various graph algorithms.
 
 This module works in conjunction with the LinkedList module.
 """
-import ctypes
 import os
 import ctypes
 
@@ -252,39 +251,45 @@ def BFS(graph, vertex):
             - parents (dict): Dictionary mapping vertex values to their parent vertices in the BFS tree.
     """
     res_ptr = lib.BFS_Graph(graph, vertex)
+    if res_ptr is None:
+        return None, None, None
     
     colors = {}
     distances = {}
     parents = {}
+    ll = None
     
-    ll = GetVertices(graph)
-    if ll:
-        from DataStructures_py import LinkedList
-        from DataStructures_py import Node
-        current = LinkedList.GetHead(ll)
-        while current:
-            v_val = Node.GetData(current)
-            colors[v_val] = lib.GetBFSColor(res_ptr, v_val).decode('utf-8')
-
-            dist = lib.GetBFSDistance(res_ptr, v_val)
-            if dist == INT_MAX:
-                distances[v_val] = "Infinity"
-            else:
-                distances[v_val] = dist
+    try:
+        ll = GetVertices(graph)
+        if ll:
+            from DataStructures_py import LinkedList
+            from DataStructures_py import Node
+            current = LinkedList.GetHead(ll)
             
-            parent_val = lib.GetBFSParent(res_ptr, v_val)
-            if parent_val != -1:
-                parents[v_val] = parent_val
-            else:
-                parents[v_val] = None
-                
-            current = Node.GetNext(current)
-            
-        LinkedList.Destroy(ll)
+            try:
+                while current:
+                    v_val = Node.GetData(current)
+                    colors[v_val] = lib.GetBFSColor(res_ptr, v_val).decode('utf-8')
+                    dist = lib.GetBFSDistance(res_ptr, v_val)
+                    if dist == INT_MAX:
+                        distances[v_val] = "Infinity"
+                    else:
+                        distances[v_val] = dist
+                    
+                    parent_val = lib.GetBFSParent(res_ptr, v_val)
+                    if parent_val != -1:
+                        parents[v_val] = parent_val
+                    else:
+                        parents[v_val] = None
+                        
+                    current = Node.GetNext(current)
+            finally:
+                LinkedList.Destroy(ll)
         
-    lib.Destroy_BFSResult(res_ptr)
-    
-    return colors, distances, parents
+        return colors, distances, parents
+
+    finally:
+        lib.Destroy_BFSResult(res_ptr)
 
 # PrintPath
 lib.PrintPath_Graph.argtypes = [ctypes.c_void_p, ctypes.c_int, ctypes.c_int]

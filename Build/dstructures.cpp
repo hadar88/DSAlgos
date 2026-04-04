@@ -581,15 +581,21 @@ extern "C" {
     };
 
     BFSResult* BFS_Graph(Graph* graph, int s){
-        auto [colors, distances, parents] = graph->BFS(s);
-        BFSResult* res = new BFSResult();
-        res->colors = colors;
-        res->distances = distances;
-        res->parents = parents;
-        return res;
+        try {
+            auto [colors, distances, parents] = graph->BFS(s);
+            BFSResult* res = new BFSResult();
+            res->colors = colors;
+            res->distances = distances;
+            res->parents = parents;
+            return res;
+        } catch (const std::invalid_argument& e) {
+            std::cerr << "Error: " << e.what() << std::endl;
+            return nullptr;
+        }
     }
 
     const char* GetBFSColor(BFSResult* res, int vertex){
+        if (res == nullptr) return "";
         if (res->colors.find(vertex) != res->colors.end()) {
             return res->colors[vertex].c_str();
         }
@@ -597,6 +603,7 @@ extern "C" {
     }
 
     int GetBFSDistance(BFSResult* res, int vertex){
+        if (res == nullptr) return -1;
         if (res->distances.find(vertex) != res->distances.end()) {
             return res->distances[vertex];
         }
@@ -604,6 +611,7 @@ extern "C" {
     }
 
     int GetBFSParent(BFSResult* res, int vertex){
+        if (res == nullptr) return -1;
         if (res->parents.find(vertex) != res->parents.end() && res->parents[vertex] != nullptr) {
             return res->parents[vertex]->GetData();
         }
