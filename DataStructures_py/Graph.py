@@ -249,10 +249,13 @@ def BFS(graph, vertex):
             - colors (dict): Dictionary mapping vertex values to their colors (white, gray and black).
             - distances (dict): Dictionary mapping vertex values to their distances from the starting vertex (unreachable vertices are marked as "Infinity").
             - parents (dict): Dictionary mapping vertex values to their parent vertices in the BFS tree.
+
+        If the underlying BFS operation cannot be created, returns three empty
+        dictionaries so the return type remains consistent.
     """
     res_ptr = lib.BFS_Graph(graph, vertex)
     if res_ptr is None:
-        return None, None, None
+        return {}, {}, {}
     
     colors = {}
     distances = {}
@@ -265,7 +268,7 @@ def BFS(graph, vertex):
             from DataStructures_py import LinkedList
             from DataStructures_py import Node
             current = LinkedList.GetHead(ll)
-            
+
             try:
                 while current:
                     v_val = Node.GetData(current)
