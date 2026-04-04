@@ -211,10 +211,14 @@ class Graph{
         }
 
         std::tuple<std::map<int, std::string>, std::map<int, int>, std::map<int, GraphVertex*>> BFS(int s){
+            if(!IsExistVertex(s)){
+                throw std::invalid_argument("Vertex " + std::to_string(s) + " does not exist");
+            }
+            
             std::map<int, std::string> colors;
             std::map<int, int> distances;
             std::map<int, GraphVertex*> parents;
-
+            
             for(GraphVertex* v : graph){
                 if(v->GetData() == s){
                     colors[v->GetData()] = "gray";
@@ -248,8 +252,9 @@ class Graph{
 
                 colors[u] = "black";
             }
-            delete Q;
 
+            delete Q;
+            
             return {colors, distances, parents};
         }
 
