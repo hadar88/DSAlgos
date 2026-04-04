@@ -38,48 +38,12 @@ class Graph{
             return nullptr;
         }
 
-        void BFS(int s){
-            for(GraphVertex* v : graph){
-                if(v->GetData() == s){
-                    v->SetColor_BFS("gray");
-                    v->SetDistance_BFS(0);
-                }
-                else{
-                    v->SetColor_BFS("white");
-                    v->SetDistance_BFS(INT_MAX);
-                }
-                v->SetParent_BFS(nullptr);
-            }
-            
-            Queue* Q = new Queue();
-            Q->Enqueue(s);
-
-            while(!Q->IsEmpty()){
-                int u = Q->Dequeue();
-                GraphVertex* u_vertex = GetVertex(u);
-
-                Node<int>* v = GetNeighbors(u)->GetHead(); 
-                while(v != nullptr){
-                    GraphVertex* v_vertex = GetVertex(v->GetData());
-                    if(v_vertex->GetColor_BFS() == "white"){
-                        v_vertex->SetColor_BFS("gray");
-                        v_vertex->SetDistance_BFS(u_vertex->GetDistance_BFS() + 1);
-                        v_vertex->SetParent_BFS(u_vertex);
-                        Q->Enqueue(v->GetData());
-                    }
-                    v = v->GetNext();
-                }
-
-                u_vertex->SetColor_BFS("black");
-            }
-            delete Q;
-        }
-
         std::vector<Edge*> GetEdges(){
             std::vector<Edge*> edges;
 
+            Node<int>* current;
             for(GraphVertex* q : graph){
-                Node<int>* current = GetNeighbors(q->GetData())->GetHead();
+                current = GetNeighbors(q->GetData())->GetHead();
                 while(current != nullptr){
                     Edge* e = new Edge(q->GetData(), current->GetData());
                     if(directed){
@@ -95,6 +59,8 @@ class Graph{
                         }
                         if(toAdd)
                             edges.push_back(e);
+                        else
+                            delete e;
                     }
                     current = current->GetNext();
                 }
@@ -215,8 +181,10 @@ class Graph{
             }
             std::cout << "Edges List:" << std::endl;
             std::vector<Edge*> edges = GetEdges();
-            for(Edge* e : edges)
+            for(Edge* e : edges){
                 e->Display();
+                delete e;
+            }
         }
 
         void Display(){
@@ -240,6 +208,43 @@ class Graph{
                 std::cout << current->GetData();
                 std::cout << std::endl;
             }
+        }
+
+        void BFS(int s){
+            for(GraphVertex* v : graph){
+                if(v->GetData() == s){
+                    v->SetColor_BFS("gray");
+                    v->SetDistance_BFS(0);
+                }
+                else{
+                    v->SetColor_BFS("white");
+                    v->SetDistance_BFS(INT_MAX);
+                }
+                v->SetParent_BFS(nullptr);
+            }
+            
+            Queue* Q = new Queue();
+            Q->Enqueue(s);
+
+            while(!Q->IsEmpty()){
+                int u = Q->Dequeue();
+                GraphVertex* u_vertex = GetVertex(u);
+
+                Node<int>* v = GetNeighbors(u)->GetHead(); 
+                while(v != nullptr){
+                    GraphVertex* v_vertex = GetVertex(v->GetData());
+                    if(v_vertex->GetColor_BFS() == "white"){
+                        v_vertex->SetColor_BFS("gray");
+                        v_vertex->SetDistance_BFS(u_vertex->GetDistance_BFS() + 1);
+                        v_vertex->SetParent_BFS(u_vertex);
+                        Q->Enqueue(v->GetData());
+                    }
+                    v = v->GetNext();
+                }
+
+                u_vertex->SetColor_BFS("black");
+            }
+            delete Q;
         }
 
         void PrintPath(int s, int v){
@@ -272,6 +277,8 @@ class Graph{
             }
             else
                 std::cout << "No path from " << s << " to " << v << " exists" << std::endl;
+
+            delete l;
         }
 
         int Distance(int s, int t){
@@ -302,6 +309,8 @@ class Graph{
         }
 
         void Clear(){
+            for(GraphVertex* v : graph)
+                delete v;
             graph.clear();
             size = 0;
         }

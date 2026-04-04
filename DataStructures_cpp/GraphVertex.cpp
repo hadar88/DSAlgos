@@ -1,5 +1,3 @@
-
-
 class GraphVertex{
     private:
         const int data;
