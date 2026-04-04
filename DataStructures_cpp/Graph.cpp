@@ -248,8 +248,9 @@ class Graph{
 
                 colors[u] = "black";
             }
-            delete Q;
 
+            delete Q;
+            
             return {colors, distances, parents};
         }
 

@@ -574,6 +574,46 @@ extern "C" {
         graph->Display();
     }
 
+    struct BFSResult {
+        std::map<int, std::string> colors;
+        std::map<int, int> distances;
+        std::map<int, GraphVertex*> parents;
+    };
+
+    BFSResult* BFS_Graph(Graph* graph, int s){
+        auto [colors, distances, parents] = graph->BFS(s);
+        BFSResult* res = new BFSResult();
+        res->colors = colors;
+        res->distances = distances;
+        res->parents = parents;
+        return res;
+    }
+
+    const char* GetBFSColor(BFSResult* res, int vertex){
+        if (res->colors.find(vertex) != res->colors.end()) {
+            return res->colors[vertex].c_str();
+        }
+        return "";
+    }
+
+    int GetBFSDistance(BFSResult* res, int vertex){
+        if (res->distances.find(vertex) != res->distances.end()) {
+            return res->distances[vertex];
+        }
+        return -1;
+    }
+
+    int GetBFSParent(BFSResult* res, int vertex){
+        if (res->parents.find(vertex) != res->parents.end() && res->parents[vertex] != nullptr) {
+            return res->parents[vertex]->GetData();
+        }
+        return -1;
+    }
+
+    void Destroy_BFSResult(BFSResult* res){
+        delete res;
+    }
+
     void PrintPath_Graph(Graph* graph, int s, int v){
         graph->PrintPath(s, v);
     }

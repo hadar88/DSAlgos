@@ -137,6 +137,11 @@ Graph.AddEdge(graph, 1, 3)  # Edge from 1 to 3
 
 # Perform graph algorithms
 Graph.PrintPath(graph, 1, 3)  # Shortest path from vertex 1 to 3
+
+# Perform Breadth-First Search
+colors, distances, parents = Graph.BFS(graph, 1)
+# distances will map reachable vertices to their distance, and unreachable vertices to "Infinity"
+
 Graph.Destroy(graph)  # Clean up the graph
 ```
 
