@@ -1,11 +1,12 @@
 class Graph{
     private:
-        std::vector<GraphVertex*> graph;
+        std::vector<GraphVertex*> vertices;
+        std::vector<Edge*> edges;
         int size;
         bool directed;
 
         bool IsExistVertex(int value){
-            for(GraphVertex* v : graph){
+            for(GraphVertex* v : vertices){
                 if(v->GetData() == value)
                     return true;
             }
@@ -16,7 +17,7 @@ class Graph{
             if(!IsExistVertex(v) || !IsExistVertex(u))
                 return false;
             
-            for(GraphVertex* q : graph){
+            for(GraphVertex* q : vertices){
                 if(q->GetData() == v && q->HasNeighbor(u))
                     return true;
             }
@@ -25,56 +26,35 @@ class Graph{
 
         int FindVertexIndex(int value){
             for(int i = 0; i < size; i++){
-                if(graph[i]->GetData() == value)
+                if(vertices[i]->GetData() == value)
+                    return i;
+            }
+            return -1;
+        }
+
+        int FindEdgeIndex(int v, int u){
+            for(int i = 0; i < edges.size(); i++){
+                if((edges[i]->getV() == v && edges[i]->getU() == u) || (edges[i]->getV() == u && edges[i]->getU() == v))
                     return i;
             }
             return -1;
         }
 
         GraphVertex* GetVertex(int value){
-            for(GraphVertex* q : graph)
+            for(GraphVertex* q : vertices)
                 if(q->GetData() == value)
                     return q;
             return nullptr;
         }
 
-        std::vector<Edge*> GetEdges(){
-            std::vector<Edge*> edges;
-
-            Node<int>* current;
-            for(GraphVertex* q : graph){
-                current = GetNeighbors(q->GetData())->GetHead();
-                while(current != nullptr){
-                    Edge* e = new Edge(q->GetData(), current->GetData());
-                    if(directed){
-                        edges.push_back(e);
-                    }
-                    else{
-                        bool toAdd = true;
-                        for(Edge* temp : edges){
-                            if(temp->getV() == e->getU() && temp->getU() == e->getV()){
-                                toAdd = false;
-                                break;
-                            }
-                        }
-                        if(toAdd)
-                            edges.push_back(e);
-                        else
-                            delete e;
-                    }
-                    current = current->GetNext();
-                }
-            }
-
-            return edges;
-        }
-
     public:
-        Graph(bool directed = true): graph(), size(0), directed(directed) {}
+        Graph(bool directed = true): vertices(), edges(), size(0), directed(directed) {}
 
         ~Graph(){
-            for(GraphVertex* v : graph)
+            for(GraphVertex* v : vertices)
                 delete v;
+            for(Edge* e : edges)
+                delete e;
         }
 
         bool IsDirected(){
@@ -92,7 +72,7 @@ class Graph{
             }
 
             GraphVertex* new_vertex = new GraphVertex(value);
-            graph.push_back(new_vertex);
+            vertices.push_back(new_vertex);
             size++;
         }
 
@@ -102,34 +82,77 @@ class Graph{
                 return;
             }
 
-            for(GraphVertex* v : graph){
-                if(v->GetData() != value && v->HasNeighbor(value))
+            for(GraphVertex* v : vertices){
+                if(v->HasNeighbor(value))
                     v->DeleteNeighbor(value);
             }
 
+            for(Edge* e : edges){
+                if(e->getV() == value || e->getU() == value){
+                    int index = FindEdgeIndex(e->getV(), e->getU());
+                    delete edges[index];
+                    edges.erase(edges.begin() + index);
+                }
+            }
+
             int index = FindVertexIndex(value);
-            delete graph[index];
-            graph.erase(graph.begin() + index);
+            delete vertices[index];
+            vertices.erase(vertices.begin() + index);
             size--;
         }
 
-        void AddEdge(int v, int u){
+        void CreateEdge(int v, int u){
+            if(v == u){
+                std::cout << "Can't create an edge from a vertex to itself" << std::endl;
+                return;
+            }
+
             if(!IsExistVertex(v) || !IsExistVertex(u)){
                 std::cout << "Cannot add edge (" << v << "," << u << ") : One or both vertices do not exist" << std::endl;
                 return;
             }
             if(IsExistEdge(v, u)){
-                std::cout << "Edge" << " (" << v << "," << u << ") " <<"already exists" << std::endl;
+                std::cout << "Edge (" << v << ", " << u << ") already exists" << std::endl;
                 return;
             }
 
-            for(GraphVertex* q : graph){
+            for(GraphVertex* q : vertices){
                 if(q->GetData() == v)
                     q->AddNeighbor(u);
                 if(!directed)
                     if(q->GetData() == u)
                         q->AddNeighbor(v);
             }
+
+            Edge* new_edge = new Edge(v, u, directed);
+            edges.push_back(new_edge);
+        }
+
+        void CreateEdge(int v, int u, double weight){
+            if(v == u){
+                std::cout << "Can't create edge from a vertex to itself" << std::endl;
+                return;
+            }
+
+            if(!IsExistVertex(v) || !IsExistVertex(u)){
+                std::cout << "Cannot add edge (" << v << "," << u << ") : One or both vertices do not exist" << std::endl;
+                return;
+            }
+            if(IsExistEdge(v, u)){
+                std::cout << "Edge (" << v << ", " << u << ") already exists" << std::endl;
+                return;
+            }
+
+            for(GraphVertex* q : vertices){
+                if(q->GetData() == v)
+                    q->AddNeighbor(u);
+                if(!directed)
+                    if(q->GetData() == u)
+                        q->AddNeighbor(v);
+            }
+
+            Edge* new_edge = new Edge(v, u, weight, directed);
+            edges.push_back(new_edge);
         }
 
         void DeleteEdge(int v, int u){
@@ -142,12 +165,27 @@ class Graph{
                 return;
             }
 
-            for(GraphVertex* q : graph){
+            for(GraphVertex* q : vertices){
                 if(q->GetData() == v)
                     q->DeleteNeighbor(u);
                 if(!directed)
                     if(q->GetData() == u)
                         q->DeleteNeighbor(v);
+            }
+
+            for(Edge* e : edges){
+                if(e->getV() == v && e->getU() == u){
+                    int index = FindEdgeIndex(v, u);
+                    delete edges[index];
+                    edges.erase(edges.begin() + index);
+                    break;
+                }
+                else if(e->getV() == u && e->getU() == v){
+                    int index = FindEdgeIndex(u, v);
+                    delete edges[index];
+                    edges.erase(edges.begin() + index);
+                    break;
+                }
             }
         }
 
@@ -156,7 +194,7 @@ class Graph{
                 throw std::invalid_argument("Vertex does not exist");
             }
 
-            for(GraphVertex* q : graph){
+            for(GraphVertex* q : vertices){
                 if(q->GetData() == value)
                     return q->GetNeighbors();
             }
@@ -168,7 +206,7 @@ class Graph{
                 throw std::runtime_error("Graph is empty");
 
             LinkedList* vertices = new LinkedList();
-            for(GraphVertex* q : graph){
+            for(GraphVertex* q : this->vertices){
                 vertices->InsertLast(q->GetData());
             }
             return vertices;
@@ -180,10 +218,8 @@ class Graph{
                 return;
             }
             std::cout << "Edges List:" << std::endl;
-            std::vector<Edge*> edges = GetEdges();
             for(Edge* e : edges){
                 e->Display();
-                delete e;
             }
         }
 
@@ -192,19 +228,22 @@ class Graph{
                 std::cout << "Graph is empty" << std::endl;
                 return;
             }
+
             std::cout << "Graph is " << (directed ? "directed" : "undirected") << " with " << size << " vertices." << std::endl;
             std::cout << "Neighbors List:" << std::endl;
-            for(GraphVertex* v : graph){
+            for(GraphVertex* v : vertices){
                 std::cout << v->GetData() << "-> ";
                 if(v->GetNeighbors()->IsEmpty()){
                     std::cout << "No neighbors" << std::endl;
                     continue;
                 }
+
                 Node<int>* current = v->GetNeighbors()->GetHead();
                 while(current->GetNext() != nullptr){
                     std::cout << current->GetData() << ", ";
                     current = current->GetNext();
                 }
+
                 std::cout << current->GetData();
                 std::cout << std::endl;
             }
@@ -219,7 +258,7 @@ class Graph{
             std::map<int, int> distances;
             std::map<int, GraphVertex*> parents;
             
-            for(GraphVertex* v : graph){
+            for(GraphVertex* v : vertices){
                 if(v->GetData() == s){
                     colors[v->GetData()] = "gray";
                     distances[v->GetData()] = 0;
@@ -312,7 +351,7 @@ class Graph{
 
             LinkedList* l = new LinkedList();
 
-            for(GraphVertex* v : graph)
+            for(GraphVertex* v : vertices)
                 if(distances[v->GetData()] != INT_MAX && v->GetData() != s)
                     l->InsertLast(v->GetData());
             
@@ -320,9 +359,14 @@ class Graph{
         }
 
         void Clear(){
-            for(GraphVertex* v : graph)
+            for(GraphVertex* v : vertices)
                 delete v;
-            graph.clear();
+            for(Edge* e : edges)
+                delete e;
+
+            vertices.clear();
+            edges.clear();
+
             size = 0;
         }
 };
