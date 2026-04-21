@@ -7,220 +7,56 @@ both directed and undirected graphs with various graph algorithms.
 
 This module works in conjunction with the LinkedList module.
 """
+from __future__ import annotations
+
 import os
 import ctypes
-
-INT_MAX = 2147483647 # Maximum value for a 32-bit signed integer
+from DataStructures_py.Utils import INT_MAX, C_INT_MAX
+from DataStructures_py.LinkedList import LinkedList
 
 # Load the library
 lib = ctypes.CDLL(os.path.join(os.path.dirname(__file__), "../Build/dstructures.so"))
 
-# Create
+# --- C Library Signatures ---
 lib.Create_Graph.argtypes = [ctypes.c_bool]
 lib.Create_Graph.restype = ctypes.c_void_p
 
-def Create(directed):
-    """
-    Create a new graph structure.
-    
-    Args:
-        directed (bool): True to create a directed graph, False for undirected.
-        
-    Returns:
-        ctypes.c_void_p: A pointer to the graph structure.
-    """
-    return lib.Create_Graph(directed)
-
-# Destroy
 lib.Destroy_Graph.argtypes = [ctypes.c_void_p]
 lib.Destroy_Graph.restype = None
 
-def Destroy(graph):
-    """
-    Destroy the graph and free its memory.
-
-    Args:
-        graph (ctypes.c_void_p): Pointer to the graph structure.
-
-    Returns:
-        None
-    """
-    if graph:
-        lib.Destroy_Graph(graph)
-
-# IsDirected
 lib.IsDirected_Graph.argtypes = [ctypes.c_void_p]
 lib.IsDirected_Graph.restype = ctypes.c_bool
 
-def IsDirected(graph):
-    """
-    Check if the graph is directed.
-    
-    Args:
-        graph (ctypes.c_void_p): Pointer to the graph structure.
-        
-    Returns:
-        bool: True if the graph is directed, False if undirected.
-    """
-    return lib.IsDirected_Graph(graph)
-
-# GetSize
 lib.GetSize_Graph.argtypes = [ctypes.c_void_p]
 lib.GetSize_Graph.restype = ctypes.c_int
 
-def GetSize(graph):
-    """
-    Get the number of vertices in the graph.
-    
-    Args:
-        graph (ctypes.c_void_p): Pointer to the graph structure.
-        
-    Returns:
-        int: The number of vertices in the graph.
-    """
-    return lib.GetSize_Graph(graph)
-
-# CreateVertex
 lib.CreateVertex_Graph.argtypes = [ctypes.c_void_p, ctypes.c_int]
 lib.CreateVertex_Graph.restype = None
 
-def CreateVertex(graph, value):
-    """
-    Create a new vertex in the graph.
-    
-    Args:
-        graph (ctypes.c_void_p): Pointer to the graph structure.
-        value (int): The integer value for the new vertex.
-        
-    Returns:
-        None
-    """
-    lib.CreateVertex_Graph(graph, value)
-
-# DeleteVertex
 lib.DeleteVertex_Graph.argtypes = [ctypes.c_void_p, ctypes.c_int]
 lib.DeleteVertex_Graph.restype = None
 
-def DeleteVertex(graph, value):
-    """
-    Delete a vertex from the graph.
-    
-    Args:
-        graph (ctypes.c_void_p): Pointer to the graph structure.
-        value (int): The value of the vertex to delete.
-        
-    Returns:
-        None
-    """
-    lib.DeleteVertex_Graph(graph, value)
+lib.CreateEdge_Graph.argtypes = [ctypes.c_void_p, ctypes.c_int, ctypes.c_int]
+lib.CreateEdge_Graph.restype = None
 
-# AddEdge
-lib.AddEdge_Graph.argtypes = [ctypes.c_void_p, ctypes.c_int, ctypes.c_int]
-lib.AddEdge_Graph.restype = None
+lib.CreateWeightedEdge_Graph.argtypes = [ctypes.c_void_p, ctypes.c_int, ctypes.c_int, ctypes.c_double]
+lib.CreateWeightedEdge_Graph.restype = None
 
-def AddEdge(graph, from_vertex, to_vertex):
-    """
-    Add an edge between two vertices in the graph.
-    
-    Args:
-        graph (ctypes.c_void_p): Pointer to the graph structure.
-        from_vertex (int): The source vertex value.
-        to_vertex (int): The destination vertex value.
-        
-    Returns:
-        None
-    """
-    lib.AddEdge_Graph(graph, from_vertex, to_vertex)
-
-# DeleteEdge
 lib.DeleteEdge_Graph.argtypes = [ctypes.c_void_p, ctypes.c_int, ctypes.c_int]
 lib.DeleteEdge_Graph.restype = None
 
-def DeleteEdge(graph, from_vertex, to_vertex):
-    """
-    Delete an edge between two vertices in the graph.
-    
-    Args:
-        graph (ctypes.c_void_p): Pointer to the graph structure.
-        from_vertex (int): The source vertex value.
-        to_vertex (int): The destination vertex value.
-        
-    Returns:
-        None
-    """
-    lib.DeleteEdge_Graph(graph, from_vertex, to_vertex)
-
-# GetNeighbors
 lib.GetNeighbors_Graph.argtypes = [ctypes.c_void_p, ctypes.c_int]
 lib.GetNeighbors_Graph.restype = ctypes.c_void_p
 
-def GetNeighbors(graph, vertex):
-    """
-    Get the neighbors of a specific vertex.
-    
-    Args:
-        graph (ctypes.c_void_p): Pointer to the graph structure.
-        vertex (int): The vertex value to get neighbors for.
-        
-    Returns:
-        ctypes.c_void_p: Pointer to a LinkedList containing neighbor vertices, or None if no neighbors.
-    """
-    result = lib.GetNeighbors_Graph(graph, vertex)
-    if result:
-        return result
-
-# GetVertices
 lib.GetVertices_Graph.argtypes = [ctypes.c_void_p]
 lib.GetVertices_Graph.restype = ctypes.c_void_p
 
-def GetVertices(graph):
-    """
-    Get all vertices in the graph.
-    
-    Args:
-        graph (ctypes.c_void_p): Pointer to the graph structure.
-        
-    Returns:
-        ctypes.c_void_p: Pointer to a LinkedList containing all vertices, or None if graph is empty.
-    """
-    result = lib.GetVertices_Graph(graph)
-    if result:
-        return result
-    return None
-
-# DisplayEdges
 lib.DisplayEdges_Graph.argtypes = [ctypes.c_void_p]
 lib.DisplayEdges_Graph.restype = None
 
-def DisplayEdges(graph):
-    """
-    Display all edges in the graph to console.
-    
-    Args:
-        graph (ctypes.c_void_p): Pointer to the graph structure.
-        
-    Returns:
-        None
-    """
-    lib.DisplayEdges_Graph(graph)
-
-# Display
 lib.Display_Graph.argtypes = [ctypes.c_void_p]
 lib.Display_Graph.restype = None
 
-def Display(graph):
-    """
-    Display the graph structure to console.
-    
-    Args:
-        graph (ctypes.c_void_p): Pointer to the graph structure.
-        
-    Returns:
-        None
-    """
-    lib.Display_Graph(graph)
-
-# BFS
 lib.BFS_Graph.argtypes = [ctypes.c_void_p, ctypes.c_int]
 lib.BFS_Graph.restype = ctypes.c_void_p
 
@@ -236,152 +72,151 @@ lib.GetBFSParent.restype = ctypes.c_int
 lib.Destroy_BFSResult.argtypes = [ctypes.c_void_p]
 lib.Destroy_BFSResult.restype = None
 
-def BFS(graph, vertex):
-    """
-    Perform Breadth-First Search (BFS) on the graph starting from a specific vertex.
-    
-    Args:
-        graph (ctypes.c_void_p): Pointer to the graph structure.
-        vertex (int): The starting vertex value.
-        
-    Returns:
-        tuple: A tuple containing three dictionaries:
-            - colors (dict): Dictionary mapping vertex values to their colors (white, gray and black).
-            - distances (dict): Dictionary mapping vertex values to their distances from the starting vertex (unreachable vertices are marked as "Infinity").
-            - parents (dict): Dictionary mapping vertex values to their parent vertices in the BFS tree.
+lib.GetPath_Graph.argtypes = [ctypes.c_void_p, ctypes.c_int, ctypes.c_int]
+lib.GetPath_Graph.restype = ctypes.c_void_p
 
-        If the underlying BFS operation cannot be created, returns three empty
-        dictionaries so the return type remains consistent.
-    """
-    res_ptr = lib.BFS_Graph(graph, vertex)
-    if res_ptr is None:
-        return {}, {}, {}
-    
-    colors = {}
-    distances = {}
-    parents = {}
-    ll = None
-    
-    try:
-        ll = GetVertices(graph)
-        if ll:
-            from DataStructures_py import LinkedList
-            from DataStructures_py import Node
-            current = LinkedList.GetHead(ll)
-
-            try:
-                while current:
-                    v_val = Node.GetData(current)
-                    colors[v_val] = lib.GetBFSColor(res_ptr, v_val).decode('utf-8')
-                    dist = lib.GetBFSDistance(res_ptr, v_val)
-                    if dist == INT_MAX:
-                        distances[v_val] = "Infinity"
-                    else:
-                        distances[v_val] = dist
-                    
-                    parent_val = lib.GetBFSParent(res_ptr, v_val)
-                    if parent_val != -1:
-                        parents[v_val] = parent_val
-                    else:
-                        parents[v_val] = None
-                        
-                    current = Node.GetNext(current)
-            finally:
-                LinkedList.Destroy(ll)
-        
-        return colors, distances, parents
-
-    finally:
-        lib.Destroy_BFSResult(res_ptr)
-
-# PrintPath
-lib.PrintPath_Graph.argtypes = [ctypes.c_void_p, ctypes.c_int, ctypes.c_int]
-lib.PrintPath_Graph.restype = None
-
-def PrintPath(graph, start, end):
-    """
-    Print the path between two vertices to console.
-    
-    Args:
-        graph (ctypes.c_void_p): Pointer to the graph structure.
-        start (int): The starting vertex value.
-        end (int): The ending vertex value.
-        
-    Returns:
-        None
-    """
-    lib.PrintPath_Graph(graph, start, end)
-
-# Distance
 lib.Distance_Graph.argtypes = [ctypes.c_void_p, ctypes.c_int, ctypes.c_int]
 lib.Distance_Graph.restype = ctypes.c_int
 
-def Distance(graph, start, end):
-    """
-    Calculate the shortest distance between two vertices.
-    
-    Args:
-        graph (ctypes.c_void_p): Pointer to the graph structure.
-        start (int): The starting vertex value.
-        end (int): The ending vertex value.
-        
-    Returns:
-        int or str: The shortest distance between vertices, or a message if unreachable.
-    """
-    result = lib.Distance_Graph(graph, start, end)
-    if result == INT_MAX:
-        return f"Vertex {end} is unreachable from vertex {start}"
-    if result != -1:
-        return result
-
-# GetReachableVertices
 lib.GetReachableVertices_Graph.argtypes = [ctypes.c_void_p, ctypes.c_int]
 lib.GetReachableVertices_Graph.restype = ctypes.c_void_p
 
-def GetReachableVertices(graph, vertex):
-    """
-    Get all vertices reachable from a specific vertex.
-    
-    Args:
-        graph (ctypes.c_void_p): Pointer to the graph structure.
-        vertex (int): The starting vertex value.
-        
-    Returns:
-        ctypes.c_void_p: Pointer to a LinkedList containing reachable vertices, or None if none reachable.
-    """
-    result = lib.GetReachableVertices_Graph(graph, vertex)
-    if result:
-        return result
-    
-# Clear
+lib.IsConnected_Graph.argtypes = [ctypes.c_void_p]
+lib.IsConnected_Graph.restype = ctypes.c_bool
+
+lib.GetTransposed_Graph.argtypes = [ctypes.c_void_p]
+lib.GetTransposed_Graph.restype = ctypes.c_void_p
+
+lib.EdgeWeight_Graph.argtypes = [ctypes.c_void_p, ctypes.c_int, ctypes.c_int]
+lib.EdgeWeight_Graph.restype = ctypes.c_double
+
+lib.GraphWeight_Graph.argtypes = [ctypes.c_void_p]
+lib.GraphWeight_Graph.restype = ctypes.c_double
+
 lib.Clear_Graph.argtypes = [ctypes.c_void_p]
 lib.Clear_Graph.restype = None
 
-def Clear(graph):
-    """
-    Clear all vertices and edges from the graph.
-    
-    Args:
-        graph (ctypes.c_void_p): Pointer to the graph structure.
+class Graph:
+    """A thin wrapper around a C++ Graph pointer."""
+    def __init__(self, directed: bool = False, ptr: ctypes.c_void_p = None) -> None:
+        if ptr:
+            self.ptr = ptr
+        else:
+            self.ptr = lib.Create_Graph(directed)
+
+    def __del__(self) -> None:
+        """Automatically destroy the graph when the object is collected."""
+        if hasattr(self, 'ptr') and self.ptr:
+            lib.Destroy_Graph(self.ptr)
+            self.ptr = None
+
+    def IsDirected(self) -> bool:
+        """Check if the graph is directed."""
+        return lib.IsDirected_Graph(self.ptr)
+
+    def GetSize(self) -> int:
+        """Get the number of vertices in the graph."""
+        return lib.GetSize_Graph(self.ptr)
+
+    def CreateVertex(self, value: int) -> None:
+        """Create a new vertex in the graph."""
+        lib.CreateVertex_Graph(self.ptr, value)
+
+    def DeleteVertex(self, value: int) -> None:
+        """Delete a vertex from the graph."""
+        lib.DeleteVertex_Graph(self.ptr, value)
+
+    def CreateEdge(self, from_vertex: int, to_vertex: int) -> None:
+        """Add an edge between two vertices in the graph."""
+        lib.CreateEdge_Graph(self.ptr, from_vertex, to_vertex)
+
+    def CreateWeightedEdge(self, from_vertex: int, to_vertex: int, weight: float) -> None:
+        """Add a weighted edge between two vertices in the graph."""
+        lib.CreateWeightedEdge_Graph(self.ptr, from_vertex, to_vertex, weight)
+
+    def DeleteEdge(self, from_vertex: int, to_vertex: int) -> None:
+        """Delete an edge between two vertices in the graph."""
+        lib.DeleteEdge_Graph(self.ptr, from_vertex, to_vertex)
+
+    def GetNeighbors(self, vertex: int) -> LinkedList | None:
+        """Get the neighbors of a specific vertex."""
+        ll_ptr = lib.GetNeighbors_Graph(self.ptr, vertex)
+        return LinkedList(ptr=ll_ptr) if ll_ptr else None
+
+    def GetVertices(self) -> LinkedList | None:
+        """Get all vertices in the graph."""
+        ll_ptr = lib.GetVertices_Graph(self.ptr)
+        return LinkedList(ptr=ll_ptr) if ll_ptr else None
+
+    def DisplayEdges(self) -> None:
+        """Display all edges in the graph to console."""
+        lib.DisplayEdges_Graph(self.ptr)
+
+    def Display(self) -> None:
+        """Display the graph structure to console."""
+        lib.Display_Graph(self.ptr)
+
+    def BFS(self, vertex: int) -> tuple[dict[int, str], dict[int, int], dict[int, int | None]]:
+        """Perform Breadth-First Search (BFS) on the graph."""
+        res_ptr = lib.BFS_Graph(self.ptr, vertex)
+        if res_ptr is None:
+            return {}, {}, {}
         
-    Returns:
-        None
-    """
-    lib.Clear_Graph(graph)
+        colors = {}
+        distances = {}
+        parents = {}
+        
+        try:
+            ll = self.GetVertices()
+            if ll:
+                current = ll.GetHead()
+                while current:
+                    v_val = current.GetData()
+                    colors[v_val] = lib.GetBFSColor(res_ptr, v_val).decode('utf-8')
+                    dist = lib.GetBFSDistance(res_ptr, v_val)
+                    distances[v_val] = dist if dist != C_INT_MAX else INT_MAX
+                    
+                    parent_val = lib.GetBFSParent(res_ptr, v_val)
+                    parents[v_val] = parent_val if parent_val != -1 else None
+                    
+                    current = current.GetNext()
+            
+            return colors, distances, parents
+        finally:
+            lib.Destroy_BFSResult(res_ptr)
 
-# Destroy returned linked list
-lib.Destroy_linkedlist.argtypes = [ctypes.c_void_p]
-lib.Destroy_linkedlist.restype = None
+    def GetPath(self, start: int, end: int) -> LinkedList | None:
+        """Get the path between two vertices."""
+        ll_ptr = lib.GetPath_Graph(self.ptr, start, end)
+        return LinkedList(ptr=ll_ptr) if ll_ptr else None
 
-def DestroyReturnedLinkedList(linked_list):
-    """
-    Destroy a linked list returned from another function and free its memory.
+    def Distance(self, start: int, end: int) -> int:
+        """Calculate the shortest distance between two vertices."""
+        result = lib.Distance_Graph(self.ptr, start, end)
+        return INT_MAX if result == C_INT_MAX else result
 
-    Args:
-        linked_list (ctypes.c_void_p): Pointer to the linked list structure.
+    def GetReachableVertices(self, vertex: int) -> LinkedList | None:
+        """Get all vertices reachable from a specific vertex."""
+        ll_ptr = lib.GetReachableVertices_Graph(self.ptr, vertex)
+        return LinkedList(ptr=ll_ptr) if ll_ptr else None
 
-    Returns:
-        None
-    """
-    if linked_list:
-        lib.Destroy_linkedlist(linked_list)
+    def IsConnected(self) -> bool:
+        """Check if the graph is connected."""
+        return lib.IsConnected_Graph(self.ptr)
+
+    def GetTransposed(self) -> Graph:
+        """Get the transposed graph."""
+        g_ptr = lib.GetTransposed_Graph(self.ptr)
+        return Graph(ptr=g_ptr) if g_ptr else None
+
+    def EdgeWeight(self, v: int, u: int) -> float:
+        """Get the weight of an edge."""
+        return lib.EdgeWeight_Graph(self.ptr, v, u)
+
+    def GraphWeight(self) -> float:
+        """Get the sum of the weights of the edges."""
+        return lib.GraphWeight_Graph(self.ptr)
+
+    def Clear(self) -> None:
+        """Clear all vertices and edges from the graph."""
+        lib.Clear_Graph(self.ptr)

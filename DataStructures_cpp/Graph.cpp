@@ -34,7 +34,7 @@ class Graph{
 
         int FindEdgeIndex(int v, int u){
             for(int i = 0; i < edges.size(); i++){
-                if((edges[i]->getV() == v && edges[i]->getU() == u) || (edges[i]->getV() == u && edges[i]->getU() == v))
+                if((edges[i]->GetV() == v && edges[i]->GetU() == u) || (edges[i]->GetV() == u && edges[i]->GetU() == v))
                     return i;
             }
             return -1;
@@ -67,7 +67,7 @@ class Graph{
 
         void CreateVertex(int value){
             if(IsExistVertex(value)){
-                std::cout << "Vertex " << value << " already exists" << std::endl;
+                std::cerr << "Error: Vertex " << value << " already exists" << std::endl;
                 return;
             }
 
@@ -78,7 +78,7 @@ class Graph{
 
         void DeleteVertex(int value){
             if(!IsExistVertex(value)){
-                std::cout << "Cannot delete vertex " << value << " : Vertex does not exist" << std::endl;
+                std::cerr << "Error: Cannot delete vertex " << value << " : Vertex does not exist" << std::endl;
                 return;
             }
 
@@ -88,8 +88,8 @@ class Graph{
             }
 
             for(Edge* e : edges){
-                if(e->getV() == value || e->getU() == value){
-                    int index = FindEdgeIndex(e->getV(), e->getU());
+                if(e->GetV() == value || e->GetU() == value){
+                    int index = FindEdgeIndex(e->GetV(), e->GetU());
                     delete edges[index];
                     edges.erase(edges.begin() + index);
                 }
@@ -103,16 +103,17 @@ class Graph{
 
         void CreateEdge(int v, int u){
             if(v == u){
-                std::cout << "Can't create an edge from a vertex to itself" << std::endl;
+                std::cerr << "Error: Can't create an edge from a vertex to itself" << std::endl;
                 return;
             }
 
             if(!IsExistVertex(v) || !IsExistVertex(u)){
-                std::cout << "Cannot add edge (" << v << "," << u << ") : One or both vertices do not exist" << std::endl;
+                std::cerr << "Error: Cannot add edge (" + std::to_string(v) + "," + std::to_string(u) + ") : One or both vertices do not exist" << std::endl;
                 return;
             }
+
             if(IsExistEdge(v, u)){
-                std::cout << "Edge (" << v << ", " << u << ") already exists" << std::endl;
+                std::cerr << "Error: Edge (" + std::to_string(v) + ", " + std::to_string(u) + ") already exists" << std::endl;
                 return;
             }
 
@@ -130,16 +131,17 @@ class Graph{
 
         void CreateEdge(int v, int u, double weight){
             if(v == u){
-                std::cout << "Can't create edge from a vertex to itself" << std::endl;
+                std::cerr << "Error: Can't create edge from a vertex to itself" << std::endl;
                 return;
             }
 
             if(!IsExistVertex(v) || !IsExistVertex(u)){
-                std::cout << "Cannot add edge (" << v << "," << u << ") : One or both vertices do not exist" << std::endl;
+                std::cerr << "Error: Cannot add edge (" + std::to_string(v) + "," + std::to_string(u) + ") : One or both vertices do not exist" << std::endl;
                 return;
             }
+
             if(IsExistEdge(v, u)){
-                std::cout << "Edge (" << v << ", " << u << ") already exists" << std::endl;
+                std::cerr << "Error: Edge (" + std::to_string(v) + ", " + std::to_string(u) + ") already exists" << std::endl;
                 return;
             }
 
@@ -157,11 +159,12 @@ class Graph{
 
         void DeleteEdge(int v, int u){
             if(!IsExistVertex(v) || !IsExistVertex(u)){
-                std::cout << "Cannot delete edge (" << v << "," << u << ") : One or both vertices do not exist" << std::endl;
+                std::cerr << "Error: Cannot delete edge (" + std::to_string(v) + "," + std::to_string(u) + ") : One or both vertices do not exist" << std::endl;
                 return;
             }
+            
             if(!IsExistEdge(v, u)){
-                std::cout << "Cannot delete edge (" << v << "," << u << ") : Edge does not exist" << std::endl;
+                std::cerr << "Error: Cannot delete edge (" + std::to_string(v) + "," + std::to_string(u) + ") : Edge does not exist" << std::endl;
                 return;
             }
 
@@ -174,13 +177,13 @@ class Graph{
             }
 
             for(Edge* e : edges){
-                if(e->getV() == v && e->getU() == u){
+                if(e->GetV() == v && e->GetU() == u){
                     int index = FindEdgeIndex(v, u);
                     delete edges[index];
                     edges.erase(edges.begin() + index);
                     break;
                 }
-                else if(e->getV() == u && e->getU() == v){
+                else if(e->GetV() == u && e->GetU() == v){
                     int index = FindEdgeIndex(u, v);
                     delete edges[index];
                     edges.erase(edges.begin() + index);
@@ -190,26 +193,37 @@ class Graph{
         }
 
         LinkedList* GetNeighbors(int value){
-            if(!IsExistVertex(value)){
-                throw std::invalid_argument("Vertex does not exist");
-            }
+            if(!IsExistVertex(value))
+                throw std::runtime_error("Vertex does not exist");
 
             for(GraphVertex* q : vertices){
-                if(q->GetData() == value)
-                    return q->GetNeighbors();
+                if(q->GetData() == value){
+                    LinkedList* copy = new LinkedList();
+                    LinkedList* neighbors = q->GetNeighbors();
+                    Node<int>* current = neighbors->GetHead();
+                    while(current){
+                        copy->Insert(current->GetData());
+                        current = current->GetNext();
+                    }
+                    return copy;
+                }
             }
             return nullptr;
         }
 
         LinkedList* GetVertices(){
-            if(size == 0)
-                throw std::runtime_error("Graph is empty");
-
             LinkedList* vertices = new LinkedList();
+            if(size == 0)
+                return vertices;
+
             for(GraphVertex* q : this->vertices){
                 vertices->InsertLast(q->GetData());
             }
             return vertices;
+        }
+
+        std::vector<Edge*> GetEdges(){
+            return edges;
         }
 
         void DisplayEdges(){
@@ -217,6 +231,7 @@ class Graph{
                 std::cout << "Graph is empty" << std::endl;
                 return;
             }
+
             std::cout << "Edges List:" << std::endl;
             for(Edge* e : edges){
                 e->Display();
@@ -232,13 +247,14 @@ class Graph{
             std::cout << "Graph is " << (directed ? "directed" : "undirected") << " with " << size << " vertices." << std::endl;
             std::cout << "Neighbors List:" << std::endl;
             for(GraphVertex* v : vertices){
-                std::cout << v->GetData() << "-> ";
+                std::cout << v->GetData() << " -> ";
                 if(v->GetNeighbors()->IsEmpty()){
                     std::cout << "No neighbors" << std::endl;
                     continue;
                 }
 
-                Node<int>* current = v->GetNeighbors()->GetHead();
+                LinkedList* neighbors = v->GetNeighbors();
+                Node<int>* current = neighbors->GetHead();
                 while(current->GetNext() != nullptr){
                     std::cout << current->GetData() << ", ";
                     current = current->GetNext();
@@ -277,7 +293,7 @@ class Graph{
                 int u = Q->Dequeue();
                 GraphVertex* u_vertex = GetVertex(u);
 
-                Node<int>* v = GetNeighbors(u)->GetHead(); 
+                Node<int>* v = u_vertex->GetNeighbors()->GetHead(); 
                 while(v != nullptr){
                     GraphVertex* v_vertex = GetVertex(v->GetData());
                     if(colors[v->GetData()] == "white"){
@@ -297,44 +313,39 @@ class Graph{
             return {colors, distances, parents};
         }
 
-        void PrintPath(int s, int v){
+        LinkedList* GetPath(int s, int v){
             if(!IsExistVertex(s) || !IsExistVertex(v)){
-                std::cout << "One or both vertices do not exist" << std::endl;
-                return;
+                throw std::invalid_argument("Vertex " + std::to_string(s) + " or " + std::to_string(v) + " does not exist");
+            }
+            
+            if(s == v){
+                LinkedList* l = new LinkedList();
+                l->Insert(s);
+                return l;
             }
             
             auto [colors, distances, parents] = BFS(s);
-            
+
             LinkedList* l = new LinkedList();
 
             GraphVertex* v_vertex = GetVertex(v);
             while(v_vertex != nullptr){
                 l->Insert(v_vertex->GetData());
-
                 v_vertex = parents[v_vertex->GetData()];
             }
 
-            Node<int>* current = l->GetHead();
-            if(current->GetData() == s){
-                while(current != nullptr){
-                    if(current->GetNext() != nullptr)
-                        std::cout << current->GetData() << " -> ";
-                    else
-                        std::cout << current->GetData();
-                    current = current->GetNext();
-                }
-                std::cout << std::endl;
+            if(l->GetHead()->GetData() == s){
+                return l;
             }
-            else
-                std::cout << "No path from " << s << " to " << v << " exists" << std::endl;
-
-            delete l;
+            else{
+                delete l;
+                throw std::runtime_error("No path from " + std::to_string(s) + " to " + std::to_string(v) + " exists");
+            }
         }
 
         int Distance(int s, int t){
-            if(!IsExistVertex(s) || !IsExistVertex(t)){
+            if(!IsExistVertex(s) || !IsExistVertex(t))
                 throw std::invalid_argument("One or both vertices do not exist");
-            }
 
             auto [colors, distances, parents] = BFS(s);
 
@@ -343,9 +354,8 @@ class Graph{
         }
 
         LinkedList* GetReachableVertices(int s){
-            if(!IsExistVertex(s)){
+            if(!IsExistVertex(s))
                 throw std::invalid_argument("Vertex does not exist");
-            }
 
             auto [colors, distances, parents] = BFS(s);
 
@@ -356,6 +366,63 @@ class Graph{
                     l->InsertLast(v->GetData());
             
             return l;
+        }
+
+        bool IsConnected(){
+            if(size <= 1)
+                return true;
+
+            GraphVertex* v = vertices[0];
+            LinkedList* l = GetReachableVertices(v->GetData());
+            bool connected = l->Size() == size - 1;
+            delete l;
+
+            if(!connected)
+                return false;
+
+            if(directed){
+                Graph* transposed = GetTransposed();
+                LinkedList* l_rev = transposed->GetReachableVertices(v->GetData());
+                bool stronglyConnected = l_rev->Size() == size - 1;
+                delete l_rev;
+                delete transposed;
+                return stronglyConnected;
+            }
+
+            return true;
+        }
+
+        Graph* GetTransposed(){
+            Graph* transposed = new Graph(directed);
+            for(GraphVertex* v : vertices)
+                transposed->CreateVertex(v->GetData());
+            
+            for(Edge* e : edges)
+                transposed->CreateEdge(e->GetU(), e->GetV(), e->GetWeight());
+            
+            return transposed;
+        }
+
+        double EdgeWeight(int v, int u){
+            if(!IsExistEdge(v, u))
+                throw std::invalid_argument("Edge does not exist");
+
+            for(Edge* e : edges){
+                if((e->GetV() == v && e->GetU() == u) || (e->GetV() == u && e->GetU() == v))
+                    return e->GetWeight();
+            }
+            return 0;
+        }
+
+        double GraphWeight(){
+            if(edges.size() == 0)
+                return 0.0;
+
+            double weight = 0.0;
+            for(Edge* e : edges)
+                weight += e->GetWeight();
+
+            return weight;
         }
 
         void Clear(){

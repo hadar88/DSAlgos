@@ -20,9 +20,9 @@ class Stack{
         }
 
         int Pop(){
-            if (list->IsEmpty()) {
+            if (list->IsEmpty())
                 throw std::runtime_error("Stack is empty");
-            }
+            
             Node<int>* head = list->GetHead();
             int item = head->GetData();
             list->Delete(item);
@@ -31,10 +31,11 @@ class Stack{
 
         void Display(){
             Node<int>* current = list->GetHead();
-            if (current == nullptr) {
-                std::cout << "The stack is empty" << std::endl;
+            if (current == nullptr){
+                std::cout << "Stack is empty" << std::endl;
                 return;
             }
+            
             std::cout << "The stack contains:" << std::endl;
             while (current->GetNext() != nullptr) {
                 std::cout << "|" << current->GetData() << "|" << std::endl;

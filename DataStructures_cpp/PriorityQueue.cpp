@@ -55,6 +55,9 @@ class PriorityQueue{
         }
 
         int Maximum(){
+            if(size == 0)
+                return INT_MIN;
+            
             return A[0];
         }
         
@@ -71,8 +74,10 @@ class PriorityQueue{
         }
 
         void IncreaseKey(int i, int key){
-            if(key < A[i])
-                throw std::invalid_argument("New key is smaller than current key");
+            if(key < A[i]){
+                std::cerr << "Error: New key is smaller than current key" << std::endl;
+                return;
+            }
             
             A[i] = key;
             while(i > 0 && A[Parent(i)] < A[i]){
@@ -84,8 +89,10 @@ class PriorityQueue{
         }
 
         void Insert(int key){
-            if(size == QUEUE_MAX_LENGTH)
-                throw std::overflow_error("Heap overflow");
+            if(size == QUEUE_MAX_LENGTH){
+                std::cerr << "Error: Heap overflow" << std::endl;
+                return;
+            }
 
             A[size] = INT_MIN;
             size++;
@@ -101,6 +108,10 @@ class PriorityQueue{
         }
 
         void Display(){
+            if (size == 0) {
+                std::cout << "Priority queue is empty" << std::endl;
+                return;
+            }
             for(int i = 0; i < size; i++) {
                 std::cout << A[i] << " ";
             }

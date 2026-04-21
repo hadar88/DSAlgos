@@ -10,20 +10,20 @@ class Edge{
 
         Edge(int v, int u, double weight, bool directed): v(v), u(u), weight(weight), directed(directed) {}
 
-        int getV(){
+        int GetV(){
             return v;
         }
 
-        int getU(){
+        int GetU(){
             return u;
         }
 
-        double getWeight(){
+        double GetWeight(){
             return weight;
         }
 
-        void setWeight(double weight){
-            weight = weight;
+        void SetWeight(double weight){
+            this->weight = weight;
         }
 
         void Display(){

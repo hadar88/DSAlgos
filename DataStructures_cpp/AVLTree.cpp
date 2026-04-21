@@ -107,10 +107,8 @@ class AVLTree{
         }
 
         TreeNode<int>* Search(int key){
-            if(!Exists(key)){
-                std::cout << "Key does not exist in the tree." << std::endl;
-                return nullptr;
-            }
+            if(!Exists(key))
+                throw std::runtime_error("Key does not exist in the tree.");
             
             TreeNode<int>* current = root;
 
@@ -175,7 +173,7 @@ class AVLTree{
 
         void Insert(int key){
             if(Exists(key)){
-                std::cout << "Key already exists in the tree." << std::endl;
+                std::cerr << "Error: Key " << key << " already exists in the tree." << std::endl;
                 return;
             }
 
@@ -227,7 +225,7 @@ class AVLTree{
 
         void Delete(int key){
             if(!Exists(key)){
-                std::cout << "Key does not exist in the tree." << std::endl;
+                std::cerr << "Error: Key " << key << " does not exist in the tree." << std::endl;
                 return;
             }
 
@@ -353,6 +351,10 @@ class AVLTree{
         }
 
         void InOrder(TreeNode<int>* current){
+            if (root == nullptr) {
+                std::cout << "The tree is empty" << std::endl;
+                return;
+            }
             if(current != nullptr){
                 InOrder(current->GetLeft());
                 std::cout << current->GetData() << " ";
@@ -364,6 +366,10 @@ class AVLTree{
         }
 
         void PreOrder(TreeNode<int>* current){
+            if (root == nullptr) {
+                std::cout << "The tree is empty" << std::endl;
+                return;
+            }
             if(current != nullptr){
                 std::cout << current->GetData() << " ";
                 PreOrder(current->GetLeft());
@@ -375,6 +381,10 @@ class AVLTree{
         }
 
         void PostOrder(TreeNode<int>* current){
+            if (root == nullptr) {
+                std::cout << "The tree is empty" << std::endl;
+                return;
+            }
             if(current != nullptr){
                 PostOrder(current->GetLeft());
                 PostOrder(current->GetRight());

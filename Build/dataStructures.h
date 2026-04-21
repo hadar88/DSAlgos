@@ -20,3 +20,5 @@ using namespace std;
 #include "../DataStructures_cpp/Edge.cpp"
 #include "../DataStructures_cpp/GraphVertex.cpp"
 #include "../DataStructures_cpp/Graph.cpp"
+#include "../DataStructures_cpp/DisjointSetsItem.cpp"
+#include "../DataStructures_cpp/DisjointSets.cpp"

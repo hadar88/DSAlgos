@@ -49,8 +49,6 @@ A comprehensive, high-performance algorithms and data structures library featuri
 ### Memory Management Rules
 1. **All data structures** must be destroyed: `LinkedList.Destroy()`, `Stack.Destroy()`, `Graph.Destroy()`, etc.
 2. **Standalone nodes** must be destroyed: `Node.Destroy()`, `TreeNode.Destroy()`, `SkipListNode.Destroy()`
-3. **Graph returned objects** need special cleanup: `Graph.DestroyReturnedLinkedList()`
-4. **GetNeighbors()** returns internal pointers - do NOT delete these
 
 ### Basic Memory Management Pattern
 ```python
@@ -144,11 +142,6 @@ colors, distances, parents = Graph.BFS(graph, 1)
 
 Graph.Destroy(graph)  # Clean up the graph
 ```
-
-### Special Graph Cleanup Rules
-- `Graph.GetVertices()` → `Graph.DestroyReturnedLinkedList(vertices)`
-- `Graph.GetReachableVertices()` → `Graph.DestroyReturnedLinkedList(reachable)`
-- `Graph.GetNeighbors()` → **Do NOT destroy** (internal pointer)
 
 ## Project Structure
 
