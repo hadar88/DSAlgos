@@ -9,7 +9,6 @@ class TestSorts(unittest.TestCase):
         self.duplicates = [5, 1, 9, 5, 2, 1, 5]
         self.sorted_duplicates = [1, 1, 2, 5, 5, 5, 9]
 
-    # --- Insertion Sort ---
     def test_insertion_sort(self):
         self.assertEqual(Sorts.InsertionSort(self.unsorted), self.sorted)
         self.assertEqual(Sorts.InsertionSort(self.sorted), self.sorted)
@@ -18,7 +17,6 @@ class TestSorts(unittest.TestCase):
         self.assertEqual(Sorts.InsertionSort([]), [])
         self.assertEqual(Sorts.InsertionSort([1]), [1])
 
-    # --- Merge Sort ---
     def test_merge_sort(self):
         self.assertEqual(Sorts.MergeSort(self.unsorted), self.sorted)
         self.assertEqual(Sorts.MergeSort(self.sorted), self.sorted)
@@ -27,7 +25,6 @@ class TestSorts(unittest.TestCase):
         self.assertEqual(Sorts.MergeSort([]), [])
         self.assertEqual(Sorts.MergeSort([1]), [1])
 
-    # --- Quick Sort ---
     def test_quick_sort(self):
         self.assertEqual(Sorts.QuickSort(self.unsorted), self.sorted)
         self.assertEqual(Sorts.QuickSort(self.sorted), self.sorted)
@@ -36,7 +33,6 @@ class TestSorts(unittest.TestCase):
         self.assertEqual(Sorts.QuickSort([]), [])
         self.assertEqual(Sorts.QuickSort([1]), [1])
 
-    # --- Counting Sort ---
     def test_counting_sort(self):
         self.assertEqual(Sorts.CountingSort(self.unsorted), self.sorted)
         self.assertEqual(Sorts.CountingSort(self.sorted), self.sorted)
@@ -45,7 +41,6 @@ class TestSorts(unittest.TestCase):
         self.assertEqual(Sorts.CountingSort([]), [])
         self.assertEqual(Sorts.CountingSort([1]), [1])
         
-        # Negative numbers check
         self.assertIsNone(Sorts.CountingSort([-1, 2, 3]))
 
     def test_identical_elements(self):
@@ -64,7 +59,6 @@ class TestSorts(unittest.TestCase):
         self.assertEqual(Sorts.CountingSort(alternating), expected)
 
     def test_counting_sort_large_range(self):
-        # Range is from 0 to 1000
         large_range = [1000, 0, 500, 1, 999]
         expected = [0, 1, 500, 999, 1000]
         self.assertEqual(Sorts.CountingSort(large_range), expected)

@@ -7,7 +7,6 @@ class TestSetItem(unittest.TestCase):
         self.assertIsNotNone(item)
         self.assertEqual(item.GetData(), 10)
         self.assertEqual(item.GetRank(), 0)
-        # Memory is managed by the SetItem class's __del__ method
 
     def test_set_and_get_rank(self):
         item = DisjointSetsItem(20)

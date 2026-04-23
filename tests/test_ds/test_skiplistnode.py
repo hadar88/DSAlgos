@@ -7,7 +7,6 @@ class TestSkipListNode(unittest.TestCase):
         self.assertIsNotNone(node)
         self.assertEqual(node.GetData(), 10)
         self.assertEqual(node.GetHeight(), 3)
-        # Memory is managed by the SkipListNode class's __del__ method
 
     def test_set_data_and_height(self):
         node = SkipListNode(5, 1)

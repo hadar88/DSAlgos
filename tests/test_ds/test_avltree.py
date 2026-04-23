@@ -7,7 +7,6 @@ class TestAVLTree(unittest.TestCase):
         self.tree = AVLTree()
 
     def tearDown(self):
-        # Memory is managed by the AVLTree class's __del__ method
         del self.tree
 
     def test_create_and_empty(self):

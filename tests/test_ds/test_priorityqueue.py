@@ -7,7 +7,6 @@ class TestPriorityQueue(unittest.TestCase):
         self.pq = PriorityQueue()
 
     def tearDown(self):
-        # Memory is managed by the PriorityQueue class's __del__ method
         del self.pq
 
     def test_create_and_empty(self):
@@ -110,8 +109,6 @@ class TestMinHeapPriorityQueue(unittest.TestCase):
     """Test suite for Min Heap functionality"""
     
     def setUp(self):
-        # Assuming PriorityQueue has a parameter for min_heap
-        # Adjust constructor call based on your actual implementation
         self.min_pq = PriorityQueue(isMax=False)
 
     def tearDown(self):
@@ -134,7 +131,6 @@ class TestMinHeapPriorityQueue(unittest.TestCase):
         self.min_pq.Insert(30)
         self.min_pq.Insert(5)
 
-        # In min heap, Top() should return the minimum value
         self.assertEqual(self.min_pq.Top(), 5)
         self.assertEqual(self.min_pq.ExtractTop(), 5)
         self.assertEqual(self.min_pq.GetSize(), 3)
@@ -151,7 +147,6 @@ class TestMinHeapPriorityQueue(unittest.TestCase):
         while self.min_pq.GetSize() > 0:
             results.append(self.min_pq.ExtractTop())
         
-        # Results should be in ascending order for min heap
         for i in range(len(results) - 1):
             self.assertLessEqual(results[i], results[i + 1])
 
@@ -167,7 +162,6 @@ class TestMinHeapPriorityQueue(unittest.TestCase):
         self.min_pq.Insert(20)
         self.min_pq.Insert(30)
         
-        # Decrease a key to make it the new minimum
         idx = self.min_pq.IndexOf(30)
         self.min_pq.UpdateKey(idx, 5)
         
@@ -178,14 +172,11 @@ class TestMinHeapPriorityQueue(unittest.TestCase):
         self.min_pq.Insert(20)
         self.min_pq.Insert(5)
         
-        # Current min should be 5
         self.assertEqual(self.min_pq.Top(), 5)
         
-        # Increase the minimum value
         idx = self.min_pq.IndexOf(5)
         self.min_pq.UpdateKey(idx, 25)
         
-        # Now min should be 10
         self.assertEqual(self.min_pq.Top(), 5)
 
     def test_min_heap_single_element(self):
@@ -207,14 +198,9 @@ class TestMinHeapPriorityQueue(unittest.TestCase):
         self.assertEqual(self.min_pq.GetSize(), 0)
 
     def test_min_heap_edge_cases(self):
-        # Extract from empty heap
         val = self.min_pq.ExtractTop()
         self.assertEqual(val, INT_MIN)
-        
-        # Update non-existent key
         self.min_pq.UpdateKey(99, 100)
-        
-        # Search for non-existent value
         idx = self.min_pq.IndexOf(999)
         self.assertEqual(idx, -1)
 
@@ -240,7 +226,6 @@ class TestMinHeapPriorityQueue(unittest.TestCase):
         while self.min_pq.GetSize() > 0:
             results.append(self.min_pq.ExtractTop())
         
-        # Verify ascending order
         for i in range(len(results) - 1):
             self.assertLessEqual(results[i], results[i + 1])
 

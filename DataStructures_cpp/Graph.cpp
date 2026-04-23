@@ -34,8 +34,11 @@ class Graph{
 
         int FindEdgeIndex(int v, int u){
             for(int i = 0; i < edges.size(); i++){
-                if((edges[i]->GetV() == v && edges[i]->GetU() == u) || (edges[i]->GetV() == u && edges[i]->GetU() == v))
+                if(edges[i]->GetV() == v && edges[i]->GetU() == u)
                     return i;
+                else if(!directed)
+                    if((edges[i]->GetV() == v && edges[i]->GetU() == u) || (edges[i]->GetV() == u && edges[i]->GetU() == v))
+                        return i;
             }
             return -1;
         }
@@ -87,12 +90,13 @@ class Graph{
                     v->DeleteNeighbor(value);
             }
 
-            for(Edge* e : edges){
-                if(e->GetV() == value || e->GetU() == value){
-                    int index = FindEdgeIndex(e->GetV(), e->GetU());
-                    delete edges[index];
-                    edges.erase(edges.begin() + index);
+            for(int i = 0; i < edges.size();){
+                if(edges[i]->GetV() == value || edges[i]->GetU() == value){
+                    delete edges[i];
+                    edges.erase(edges.begin() + i);
                 }
+                else
+                    i++;
             }
 
             int index = FindVertexIndex(value);
@@ -408,8 +412,13 @@ class Graph{
                 throw std::invalid_argument("Edge (" + std::to_string(v) + " -> " + std::to_string(u) + ") does not exist");
 
             for(Edge* e : edges){
-                if((e->GetV() == v && e->GetU() == u) || (e->GetV() == u && e->GetU() == v))
-                    return e->GetWeight();
+                if(directed){
+                    if(e->GetV() == v && e->GetU() == u)
+                        return e->GetWeight();
+                }
+                else
+                    if((e->GetV() == v && e->GetU() == u) || (e->GetV() == u && e->GetU() == v))
+                        return e->GetWeight();
             }
             return 0;
         }

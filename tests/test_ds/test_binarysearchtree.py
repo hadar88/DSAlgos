@@ -67,7 +67,6 @@ class TestBinarySearchTree(unittest.TestCase):
         self.assertEqual(self.tree.Height(30), 1)
 
     def test_traversals(self):
-        # Mostly checking for no crashes
         self.tree.Insert(10)
         self.tree.Insert(5)
         self.tree.Insert(15)

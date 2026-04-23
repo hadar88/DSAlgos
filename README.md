@@ -42,14 +42,6 @@ A comprehensive, high-performance algorithms and data structures library featuri
 - **SkipListNode** - Specialized node for skip list implementation
 - **GraphVertex** & **Edge** - Graph components for vertex and edge operations
 
-## Memory Management
-
-⚠️ **CRITICAL**: This library uses C++ backend with manual memory management. Always call `Destroy()` functions to prevent memory leaks.
-
-### Memory Management Rules
-1. **All data structures** must be destroyed: `LinkedList.Destroy()`, `Stack.Destroy()`, `Graph.Destroy()`, etc.
-2. **Standalone nodes** must be destroyed: `Node.Destroy()`, `TreeNode.Destroy()`, `SkipListNode.Destroy()`
-
 ### Basic Memory Management Pattern
 ```python
 # Create → Use → Destroy pattern

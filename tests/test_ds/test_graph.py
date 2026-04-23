@@ -8,7 +8,6 @@ class TestGraph(unittest.TestCase):
         self.g_undir = Graph(directed=False)
 
     def tearDown(self):
-        # Memory is managed by the Graph class's __del__ method
         del self.g_dir
         del self.g_undir
 
@@ -27,7 +26,6 @@ class TestGraph(unittest.TestCase):
 
         ll_vertices = self.g_dir.GetVertices()
         self.assertIsNotNone(ll_vertices)
-        # LinkedList destruction is automatic
 
     def test_delete_vertex(self):
         self.g_dir.CreateVertex(1)
@@ -88,7 +86,6 @@ class TestGraph(unittest.TestCase):
 
         transposed = self.g_dir.GetTransposed()
         self.assertIsNotNone(transposed)
-        # transposed is a Graph object, memory is managed
 
     def test_clear_and_display(self):
         self.g_dir.CreateVertex(1)

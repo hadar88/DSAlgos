@@ -1,9 +1,9 @@
 class PriorityQueue{
     private:
-        std::vector<int> A;
+        std::vector<double> A;
         int size;
         static const int QUEUE_MAX_LENGTH = 100;
-        function<bool(int,int)> cmp;
+        function<bool(double,double)> cmp;
 
         int Parent(int i){
             return (i - 1) / 2;
@@ -50,12 +50,12 @@ class PriorityQueue{
     public:
         PriorityQueue(bool isMax): A(QUEUE_MAX_LENGTH), size(0) {
             if(isMax)
-                cmp = [](int a, int b){ return a > b; };
+                cmp = [](double a, double b){ return a > b; };
             else
-                cmp = [](int a, int b){ return a < b; };
+                cmp = [](double a, double b){ return a < b; };
         }
 
-        int IndexOf(int key){
+        int IndexOf(double key){
             for(int i = 0; i < size; i++){
                 if(A[i] == key)
                     return i;
@@ -67,24 +67,24 @@ class PriorityQueue{
             return size;
         }
 
-        int Top(){
+        double Top(){
             if(size == 0)
                 throw std::out_of_range("Heap is empty"); 
             return A[0];
         }
         
-        int ExtractTop(){
+        double ExtractTop(){
             if(size == 0)
                 throw std::out_of_range("Heap underflow");
 
-            int top = A[0];
+            double top = A[0];
             A[0] = A[size - 1];
             size--;
             Heapify(0);
             return top;
         }
 
-        void UpdateKey(int i, int key){
+        void UpdateKey(int i, double key){
             if (i < 0 || i >= size) {
                 std::cerr << "Error: Index out of range" << std::endl;
                 return;
@@ -100,7 +100,7 @@ class PriorityQueue{
             BubbleUp(i);
         }
 
-        void Insert(int key){
+        void Insert(double key){
             if(size == QUEUE_MAX_LENGTH){
                 std::cerr << "Error: Heap overflow" << std::endl;
                 return;

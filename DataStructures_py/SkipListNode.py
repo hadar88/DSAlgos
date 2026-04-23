@@ -46,11 +46,13 @@ class SkipListNode:
     creation, data access, and navigation through multiple levels. Skip list nodes
     support probabilistic data structure operations with multiple forward/backward pointers.
     """
-    def __init__(self, value: int = None, height: int = None, ptr: ctypes.c_void_p = None, owned: bool = True) -> None:
+    def __init__(self, value: int | None = None, height: int | None = None, ptr: ctypes.c_void_p = None, owned: bool = True) -> None:
         self.owned = owned
         if ptr:
             self.ptr = ptr
         else:
+            if value is None or height is None:
+                raise ValueError("value and height must be provided when ptr is not supplied")
             self.ptr = lib.Create_SkipListNode(value, height)
 
     def __del__(self) -> None:

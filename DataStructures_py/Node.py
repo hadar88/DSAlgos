@@ -38,6 +38,8 @@ class Node:
         if ptr is not None:
             self.ptr = ptr
         else:
+            if value is None:
+                raise ValueError("value must be provided when ptr is not supplied")
             self.ptr = lib.Create_node(value)
 
     def __del__(self) -> None:

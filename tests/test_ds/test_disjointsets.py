@@ -6,7 +6,6 @@ class TestDisjointSets(unittest.TestCase):
         self.ds = DisjointSets()
 
     def tearDown(self):
-        # Memory is managed by the DisjointSets class's __del__ method
         del self.ds
 
     def test_create_and_empty(self):

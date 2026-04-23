@@ -6,7 +6,6 @@ class TestSkipList(unittest.TestCase):
         self.sl = SkipList()
 
     def tearDown(self):
-        # Memory is managed by the SkipList class's __del__ method
         del self.sl
 
     def test_create_and_empty(self):

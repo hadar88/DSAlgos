@@ -1,8 +1,7 @@
-int findKeyByValue(const std::map<int, int>& m, int value) {
+int findKeyByValue(const std::map<int, double>& m, double value) {
     for (const auto& pair : m) {
-        if (pair.second == value) {
+        if (pair.second == value)
             return pair.first;
-        }
     }
     return -1;
 }
@@ -19,7 +18,7 @@ Graph* PrimMST(Graph* g){
 
     Graph* A = new Graph(false);
 
-    std::map<int, int> keys;
+    std::map<int, double> keys;
     std::map<int, int> parents;
 
     LinkedList* vertices = g->GetVertices();
@@ -50,7 +49,7 @@ Graph* PrimMST(Graph* g){
         while(current){
             int v = current->GetData();
             
-            int edge_weight = g->EdgeWeight(u, v);  
+            double edge_weight = g->EdgeWeight(u, v);  
             if(pq->IndexOf(keys[v]) != -1 && edge_weight < keys[v]){
                 parents[v] = u;
                 pq->UpdateKey(pq->IndexOf(keys[v]), edge_weight);
