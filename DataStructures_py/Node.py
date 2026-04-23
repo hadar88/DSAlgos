@@ -62,7 +62,7 @@ class Node:
         """Set the data value of this node."""
         lib.SetData_node(self.ptr, value)
 
-    def SetNext(self, next_node: Node) -> None:
+    def SetNext(self, next_node: Node | None) -> None:
         """Set the next node pointer."""
         ptr = next_node.ptr if next_node else None
         lib.SetNext_node(self.ptr, ptr)

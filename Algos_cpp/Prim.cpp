@@ -39,7 +39,7 @@ Graph* PrimMST(Graph* g){
     }
     
     while(pq->GetSize() != 0){
-        int u_key = pq->ExtractTop();
+        double u_key = pq->ExtractTop();
         int u = findKeyByValue(keys, u_key);
         keys.erase(u);
 

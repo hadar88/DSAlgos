@@ -88,12 +88,12 @@ class SkipListNode:
         """Set the height of this node."""
         lib.SetHeight_SkipListNode(self.ptr, height)
 
-    def SetNext(self, level: int, next_node: SkipListNode) -> None:
+    def SetNext(self, level: int, next_node: SkipListNode | None) -> None:
         """Set the next node pointer at a specific level."""
         ptr = next_node.ptr if next_node else None
         lib.SetNext_SkipListNode(self.ptr, level, ptr)
 
-    def SetPrev(self, level: int, prev_node: SkipListNode) -> None:
+    def SetPrev(self, level: int, prev_node: SkipListNode | None) -> None:
         """Set the previous node pointer at a specific level."""
         ptr = prev_node.ptr if prev_node else None
         lib.SetPrev_SkipListNode(self.ptr, level, ptr)

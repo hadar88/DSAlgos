@@ -84,17 +84,17 @@ class TreeNode:
         """Set the data value of this node."""
         lib.SetData_treenode(self.ptr, value)
 
-    def SetLeft(self, left_node: TreeNode) -> None:
+    def SetLeft(self, left_node: TreeNode | None) -> None:
         """Set the left child node."""
         ptr = left_node.ptr if left_node else None
         lib.SetLeft_treenode(self.ptr, ptr)
 
-    def SetRight(self, right_node: TreeNode) -> None:
+    def SetRight(self, right_node: TreeNode | None) -> None:
         """Set the right child node."""
         ptr = right_node.ptr if right_node else None
         lib.SetRight_treenode(self.ptr, ptr)
 
-    def SetParent(self, parent_node: TreeNode) -> None:
+    def SetParent(self, parent_node: TreeNode | None) -> None:
         """Set the parent node."""
         ptr = parent_node.ptr if parent_node else None
         lib.SetParent_treenode(self.ptr, ptr)

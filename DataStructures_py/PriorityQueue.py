@@ -19,15 +19,15 @@ lib.GetSize_PriorityQueue.argtypes = [ctypes.c_void_p]
 lib.GetSize_PriorityQueue.restype = ctypes.c_int
 
 lib.Top_PriorityQueue.argtypes = [ctypes.c_void_p]
-lib.Top_PriorityQueue.restype = ctypes.c_int
+lib.Top_PriorityQueue.restype = ctypes.c_double
 
 lib.ExtractTop_PriorityQueue.argtypes = [ctypes.c_void_p]
-lib.ExtractTop_PriorityQueue.restype = ctypes.c_int
+lib.ExtractTop_PriorityQueue.restype = ctypes.c_double
 
-lib.UpdateKey_PriorityQueue.argtypes = [ctypes.c_void_p, ctypes.c_int, ctypes.c_int]
+lib.UpdateKey_PriorityQueue.argtypes = [ctypes.c_void_p, ctypes.c_int, ctypes.c_double]
 lib.UpdateKey_PriorityQueue.restype = None
 
-lib.Insert_PriorityQueue.argtypes = [ctypes.c_void_p, ctypes.c_int]
+lib.Insert_PriorityQueue.argtypes = [ctypes.c_void_p, ctypes.c_double]
 lib.Insert_PriorityQueue.restype = None
 
 lib.HeapSort_PriorityQueue.argtypes = [ctypes.c_void_p]

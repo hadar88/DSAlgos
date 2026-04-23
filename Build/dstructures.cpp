@@ -490,7 +490,7 @@ extern "C" {
         return pq->GetSize();
     }
 
-    int Top_PriorityQueue(PriorityQueue* pq){
+    double Top_PriorityQueue(PriorityQueue* pq){
         try {
             return pq->Top();
         } catch (const std::out_of_range& e) {
@@ -499,7 +499,7 @@ extern "C" {
         }
     }
 
-    int ExtractTop_PriorityQueue(PriorityQueue* pq){
+    double ExtractTop_PriorityQueue(PriorityQueue* pq){
         try {
             return pq->ExtractTop();
         } catch (const std::out_of_range& e) {
@@ -508,11 +508,11 @@ extern "C" {
         }
     }
 
-    void UpdateKey_PriorityQueue(PriorityQueue* pq, int i, int key){
+    void UpdateKey_PriorityQueue(PriorityQueue* pq, int i, double key){
         pq->UpdateKey(i, key);
     }
 
-    void Insert_PriorityQueue(PriorityQueue* pq, int key){
+    void Insert_PriorityQueue(PriorityQueue* pq, double key){
         pq->Insert(key);
     }
 
