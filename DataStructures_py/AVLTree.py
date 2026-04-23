@@ -1,12 +1,3 @@
-"""
-AVL Tree operations for self-balancing binary search trees.
-
-This module provides Python wrappers for C++ AVL Tree operations including
-creation, insertion, deletion, searching, and traversal. AVL trees automatically
-maintain balance through rotations, ensuring O(log n) performance for all operations.
-
-This module works in conjunction with the TreeNode module.
-"""
 import os
 import ctypes
 from DataStructures_py.Utils import INT_MAX, INT_MIN, C_INT_MAX, C_INT_MIN
@@ -68,7 +59,15 @@ lib.PostOrder_AVLTree.argtypes = [ctypes.c_void_p]
 lib.PostOrder_AVLTree.restype = None
 
 class AVLTree:
-    """A thin wrapper around a C++ AVLTree pointer."""
+    """
+    AVL Tree operations for self-balancing binary search trees.
+
+    This module provides Python wrappers for C++ AVL Tree operations including
+    creation, insertion, deletion, searching, and traversal. AVL trees automatically
+    maintain balance through rotations, ensuring O(log n) performance for all operations.
+
+    This module works in conjunction with the TreeNode module.
+    """
     def __init__(self, ptr: ctypes.c_void_p = None) -> None:
         if ptr:
             self.ptr = ptr

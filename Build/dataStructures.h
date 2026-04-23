@@ -6,6 +6,7 @@ using namespace std;
 #include <vector>
 #include <climits>
 #include <iostream>
+#include <functional>
 
 #include "../DataStructures_cpp/Node.cpp"
 #include "../DataStructures_cpp/TreeNode.cpp"

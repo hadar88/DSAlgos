@@ -1,9 +1,3 @@
-"""
-Stack operations for LIFO (Last In, First Out) data structures.
-
-This module provides Python wrappers for C++ stack operations.
-All operations are encapsulated within the Stack class.
-"""
 import os
 import ctypes
 
@@ -30,7 +24,12 @@ lib.Display_stack.argtypes = [ctypes.c_void_p]
 lib.Display_stack.restype = None
 
 class Stack:
-    """A thin wrapper around a C++ stack pointer."""
+    """
+    Stack operations for LIFO (Last In, First Out) data structures.
+
+    This module provides Python wrappers for C++ stack operations.
+    All operations are encapsulated within the Stack class.
+    """
     def __init__(self, ptr: ctypes.c_void_p = None) -> None:
         if ptr is not None:
             self.ptr = ptr

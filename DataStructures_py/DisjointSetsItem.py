@@ -1,9 +1,3 @@
-"""
-SetItem operations for disjoint sets.
-
-This module provides Python wrappers for C++ SetItem operations including
-creation, data access, and pointer manipulation for SetItems.
-"""
 from __future__ import annotations
 
 import os
@@ -35,7 +29,12 @@ lib.SetParent_SetItem.argtypes = [ctypes.c_void_p, ctypes.c_void_p]
 lib.SetParent_SetItem.restype = None
 
 class DisjointSetsItem:
-    """A thin wrapper around a C++ SetItem pointer."""
+    """
+    SetItem operations for disjoint sets.
+
+    This module provides Python wrappers for C++ SetItem operations including
+    creation, data access, and pointer manipulation for SetItems.
+    """
     def __init__(self, value: int = None, ptr : ctypes.c_void_p = None, owned: bool = True) -> None:
         self.owned = owned
         if ptr:

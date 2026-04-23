@@ -1,12 +1,3 @@
-"""
-Graph operations for graph data structures.
-
-This module provides Python wrappers for C++ Graph operations including
-creation, vertex and edge manipulation, traversal, and pathfinding. Supports
-both directed and undirected graphs with various graph algorithms.
-
-This module works in conjunction with the LinkedList module.
-"""
 from __future__ import annotations
 
 import os
@@ -97,7 +88,15 @@ lib.Clear_Graph.argtypes = [ctypes.c_void_p]
 lib.Clear_Graph.restype = None
 
 class Graph:
-    """A thin wrapper around a C++ Graph pointer."""
+    """
+    Graph operations for graph data structures.
+
+    This module provides Python wrappers for C++ Graph operations including
+    creation, vertex and edge manipulation, traversal, and pathfinding. Supports
+    both directed and undirected graphs with various graph algorithms.
+
+    This module works in conjunction with the LinkedList module.
+    """
     def __init__(self, directed: bool = False, ptr: ctypes.c_void_p = None) -> None:
         if ptr:
             self.ptr = ptr

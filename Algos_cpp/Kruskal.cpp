@@ -50,7 +50,10 @@ void MergeSort(std::vector<Edge*>& A, int left, int right){
 Graph* KruskalMST(Graph* g){
     if(g->GetSize() == 0)
         return new Graph(false);
-    
+
+    if(g->IsDirected())
+        throw std::invalid_argument("Graph is directed");
+
     if(!g->IsConnected())
         throw std::invalid_argument("Graph is not connected");
 

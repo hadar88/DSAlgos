@@ -1,10 +1,3 @@
-"""
-PriorityQueue operations for heap-based priority queue data structures.
-
-This module provides Python wrappers for C++ PriorityQueue operations including
-creation, insertion, extraction, and heap operations. The priority queue is implemented
-as a max-heap where the highest priority (maximum value) element is at the root.
-"""
 import os
 import ctypes
 from DataStructures_py.Utils import INT_MIN, C_INT_MIN
@@ -13,7 +6,7 @@ from DataStructures_py.Utils import INT_MIN, C_INT_MIN
 lib = ctypes.CDLL(os.path.join(os.path.dirname(__file__), "../Build/dstructures.so"))
 
 # --- C Library Signatures ---
-lib.Create_PriorityQueue.argtypes = []
+lib.Create_PriorityQueue.argtypes = [ctypes.c_bool]
 lib.Create_PriorityQueue.restype = ctypes.c_void_p
 
 lib.Destroy_PriorityQueue.argtypes = [ctypes.c_void_p]
@@ -25,14 +18,14 @@ lib.IndexOf_PriorityQueue.restype = ctypes.c_int
 lib.GetSize_PriorityQueue.argtypes = [ctypes.c_void_p]
 lib.GetSize_PriorityQueue.restype = ctypes.c_int
 
-lib.Maximum_PriorityQueue.argtypes = [ctypes.c_void_p]
-lib.Maximum_PriorityQueue.restype = ctypes.c_int
+lib.Top_PriorityQueue.argtypes = [ctypes.c_void_p]
+lib.Top_PriorityQueue.restype = ctypes.c_int
 
-lib.ExtractMax_PriorityQueue.argtypes = [ctypes.c_void_p]
-lib.ExtractMax_PriorityQueue.restype = ctypes.c_int
+lib.ExtractTop_PriorityQueue.argtypes = [ctypes.c_void_p]
+lib.ExtractTop_PriorityQueue.restype = ctypes.c_int
 
-lib.IncreaseKey_PriorityQueue.argtypes = [ctypes.c_void_p, ctypes.c_int, ctypes.c_int]
-lib.IncreaseKey_PriorityQueue.restype = None
+lib.UpdateKey_PriorityQueue.argtypes = [ctypes.c_void_p, ctypes.c_int, ctypes.c_int]
+lib.UpdateKey_PriorityQueue.restype = None
 
 lib.Insert_PriorityQueue.argtypes = [ctypes.c_void_p, ctypes.c_int]
 lib.Insert_PriorityQueue.restype = None
@@ -44,12 +37,20 @@ lib.Display_PriorityQueue.argtypes = [ctypes.c_void_p]
 lib.Display_PriorityQueue.restype = None
 
 class PriorityQueue:
-    """A thin wrapper around a C++ PriorityQueue pointer."""
-    def __init__(self, ptr: ctypes.c_void_p = None) -> None:
+    """
+    PriorityQueue operations for heap-based priority queue data structures.
+
+    This module provides Python wrappers for C++ PriorityQueue operations including
+    creation, insertion, extraction, and heap operations.
+
+    Implemented by default as a Max Heap but can be used as a Min Heap by passing
+    isMax=False to the constructor
+    """
+    def __init__(self, isMax: bool = True, ptr: ctypes.c_void_p = None) -> None:
         if ptr:
             self.ptr = ptr
         else:
-            self.ptr = lib.Create_PriorityQueue()
+            self.ptr = lib.Create_PriorityQueue(isMax)
 
     def __del__(self) -> None:
         """Automatically destroy the priority queue when the object is collected."""
@@ -65,19 +66,19 @@ class PriorityQueue:
         """Get the number of elements in the priority queue."""
         return lib.GetSize_PriorityQueue(self.ptr)
 
-    def Maximum(self) -> int:
+    def Top(self) -> int:
         """Get the maximum element (highest priority) from the priority queue."""
-        result = lib.Maximum_PriorityQueue(self.ptr)
+        result = lib.Top_PriorityQueue(self.ptr)
         return INT_MIN if result == C_INT_MIN else result
 
-    def ExtractMax(self) -> int:
+    def ExtractTop(self) -> int:
         """Remove and return the maximum element from the priority queue."""
-        result = lib.ExtractMax_PriorityQueue(self.ptr)
+        result = lib.ExtractTop_PriorityQueue(self.ptr)
         return INT_MIN if result == C_INT_MIN else result
 
-    def IncreaseKey(self, index: int, value: int) -> None:
+    def UpdateKey(self, index: int, value: int) -> None:
         """Increase the priority of an element at a specific index."""
-        lib.IncreaseKey_PriorityQueue(self.ptr, index, value)
+        lib.UpdateKey_PriorityQueue(self.ptr, index, value)
 
     def Insert(self, value: int) -> None:
         """Insert a new element into the priority queue."""

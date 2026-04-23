@@ -1,9 +1,3 @@
-"""
-DisjointSets operations for disjoint sets.
-
-This module provides Python wrappers for C++ DisjointSets operations including
-creation, destruction, MakeSet, FindSet, Union, and Display operations.
-"""
 import os
 import ctypes
 from DataStructures_py.DisjointSetsItem import DisjointSetsItem
@@ -31,7 +25,12 @@ lib.Display_DisjointSets.argtypes = [ctypes.c_void_p]
 lib.Display_DisjointSets.restype = None
 
 class DisjointSets:
-    """A thin wrapper around a C++ DisjointSets pointer."""
+    """
+    DisjointSets operations for disjoint sets.
+
+    This module provides Python wrappers for C++ DisjointSets operations including
+    creation, destruction, MakeSet, FindSet, Union, and Display operations.
+    """
     def __init__(self, ptr: ctypes.c_void_p = None, owned: bool = True) -> None:
         self.owned = owned
         if ptr:

@@ -1,9 +1,3 @@
-"""
-TreeNode operations for tree data structures.
-
-This module provides Python wrappers for C++ tree node operations.
-All operations are encapsulated within the TreeNode class.
-"""
 from __future__ import annotations
 
 import os
@@ -45,7 +39,12 @@ lib.SetParent_treenode.argtypes = [ctypes.c_void_p, ctypes.c_void_p]
 lib.SetParent_treenode.restype = None
 
 class TreeNode:
-    """A thin wrapper around a C++ tree node pointer."""
+    """
+    TreeNode operations for tree data structures.
+
+    This module provides Python wrappers for C++ tree node operations.
+    All operations are encapsulated within the TreeNode class.
+    """
     def __init__(self, value: int | None = None, ptr: ctypes.c_void_p = None, owned: bool = True) -> None:
         self.owned = owned
         if ptr is not None:

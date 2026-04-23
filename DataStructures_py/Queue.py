@@ -1,9 +1,3 @@
-"""
-Queue operations for FIFO (First In, First Out) data structures.
-
-This module provides Python wrappers for C++ queue operations.
-All operations are encapsulated within the Queue class.
-"""
 import os
 import ctypes
 from DataStructures_py.Utils import INT_MIN, C_INT_MIN
@@ -31,7 +25,12 @@ lib.Display_queue.argtypes = [ctypes.c_void_p]
 lib.Display_queue.restype = None
 
 class Queue:
-    """A thin wrapper around a C++ queue pointer."""
+    """
+    Queue operations for FIFO (First In, First Out) data structures.
+
+    This module provides Python wrappers for C++ queue operations.
+    All operations are encapsulated within the Queue class.
+    """
     def __init__(self, ptr: ctypes.c_void_p = None) -> None:
         if ptr is not None:
             self.ptr = ptr

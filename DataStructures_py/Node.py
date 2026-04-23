@@ -1,9 +1,3 @@
-"""
-Node operations for linked data structures.
-
-This module provides Python wrappers for C++ node operations.
-All operations are encapsulated within the Node class.
-"""
 from __future__ import annotations
 
 import os
@@ -33,7 +27,12 @@ lib.SetNext_node.argtypes = [ctypes.c_void_p, ctypes.c_void_p]
 lib.SetNext_node.restype = None
 
 class Node:
-    """A thin wrapper around a C++ node pointer."""
+    """
+    Node operations for linked data structures.
+
+    This module provides Python wrappers for C++ node operations.
+    All operations are encapsulated within the Node class.
+    """
     def __init__(self, value: int | None = None, ptr: ctypes.c_void_p = None, owned: bool = True) -> None:
         self.owned = owned
         if ptr is not None:

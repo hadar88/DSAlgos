@@ -1,9 +1,3 @@
-"""
-Binary Search Tree operations for ordered tree data structures.
-
-This module provides Python wrappers for C++ Binary Search Tree operations.
-All operations are encapsulated within the BinarySearchTree class.
-"""
 import os
 import ctypes
 from DataStructures_py.Utils import INT_MAX, INT_MIN, C_INT_MAX, C_INT_MIN
@@ -65,7 +59,12 @@ lib.PostOrder_BinarySearchTree.argtypes = [ctypes.c_void_p]
 lib.PostOrder_BinarySearchTree.restype = None
 
 class BinarySearchTree:
-    """A thin wrapper around a C++ BST pointer."""
+    """
+    Binary Search Tree operations for ordered tree data structures.
+
+    This module provides Python wrappers for C++ Binary Search Tree operations.
+    All operations are encapsulated within the BinarySearchTree class.
+    """
     def __init__(self, ptr: ctypes.c_void_p = None) -> None:
         if ptr is not None:
             self.ptr = ptr

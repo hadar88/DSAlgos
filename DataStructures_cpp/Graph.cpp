@@ -405,7 +405,7 @@ class Graph{
 
         double EdgeWeight(int v, int u){
             if(!IsExistEdge(v, u))
-                throw std::invalid_argument("Edge does not exist");
+                throw std::invalid_argument("Edge (" + std::to_string(v) + " -> " + std::to_string(u) + ") does not exist");
 
             for(Edge* e : edges){
                 if((e->GetV() == v && e->GetU() == u) || (e->GetV() == u && e->GetU() == v))

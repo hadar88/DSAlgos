@@ -474,8 +474,8 @@ extern "C" {
     }
 
     // PriorityQueue
-    PriorityQueue* Create_PriorityQueue(){
-        return new PriorityQueue();
+    PriorityQueue* Create_PriorityQueue(bool isMax = true){
+        return new PriorityQueue(isMax);
     }
 
     void Destroy_PriorityQueue(PriorityQueue* pq){
@@ -490,21 +490,26 @@ extern "C" {
         return pq->GetSize();
     }
 
-    int Maximum_PriorityQueue(PriorityQueue* pq){
-        return pq->Maximum();
-    }
-
-    int ExtractMax_PriorityQueue(PriorityQueue* pq){
+    int Top_PriorityQueue(PriorityQueue* pq){
         try {
-            return pq->ExtractMax();
+            return pq->Top();
         } catch (const std::out_of_range& e) {
             std::cerr << "Error: " << e.what() << std::endl;
             return INT_MIN;
         }
     }
 
-    void IncreaseKey_PriorityQueue(PriorityQueue* pq, int i, int key){
-        pq->IncreaseKey(i, key);
+    int ExtractTop_PriorityQueue(PriorityQueue* pq){
+        try {
+            return pq->ExtractTop();
+        } catch (const std::out_of_range& e) {
+            std::cerr << "Error: " << e.what() << std::endl;
+            return INT_MIN;
+        }
+    }
+
+    void UpdateKey_PriorityQueue(PriorityQueue* pq, int i, int key){
+        pq->UpdateKey(i, key);
     }
 
     void Insert_PriorityQueue(PriorityQueue* pq, int key){

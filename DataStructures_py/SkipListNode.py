@@ -1,10 +1,3 @@
-"""
-SkipListNode operations for skip list data structures.
-
-This module provides Python wrappers for C++ SkipListNode operations including
-creation, data access, and navigation through multiple levels. Skip list nodes
-support probabilistic data structure operations with multiple forward/backward pointers.
-"""
 from __future__ import annotations
 
 import os
@@ -46,7 +39,13 @@ lib.SetPrev_SkipListNode.argtypes = [ctypes.c_void_p, ctypes.c_int, ctypes.c_voi
 lib.SetPrev_SkipListNode.restype = None
 
 class SkipListNode:
-    """A thin wrapper around a C++ SkipListNode pointer."""
+    """
+    SkipListNode operations for skip list data structures.
+
+    This module provides Python wrappers for C++ SkipListNode operations including
+    creation, data access, and navigation through multiple levels. Skip list nodes
+    support probabilistic data structure operations with multiple forward/backward pointers.
+    """
     def __init__(self, value: int = None, height: int = None, ptr: ctypes.c_void_p = None, owned: bool = True) -> None:
         self.owned = owned
         if ptr:

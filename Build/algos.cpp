@@ -30,4 +30,14 @@ extern "C"{
             return nullptr;
         }
     }
+
+    // Prim's Algorithm
+    Graph* Prim(Graph* g){
+        try{
+            return PrimMST(g);
+        } catch(const std::invalid_argument& e) {
+            std::cerr << "Error: " << e.what() << std::endl;
+            return nullptr;
+        }
+    }
 }

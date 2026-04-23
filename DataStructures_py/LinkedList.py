@@ -1,9 +1,3 @@
-"""
-LinkedList operations for dynamic data structures.
-
-This module provides Python wrappers for C++ linked list operations.
-All operations are encapsulated within the LinkedList class.
-"""
 import os
 import ctypes
 from DataStructures_py.Node import Node
@@ -40,7 +34,12 @@ lib.Display_linkedlist.argtypes = [ctypes.c_void_p]
 lib.Display_linkedlist.restype = None
 
 class LinkedList:
-    """A thin wrapper around a C++ linked list pointer."""
+    """
+    LinkedList operations for dynamic data structures.
+
+    This module provides Python wrappers for C++ linked list operations.
+    All operations are encapsulated within the LinkedList class.
+    """
     def __init__(self, ptr: ctypes.c_void_p = None) -> None:
         if ptr is not None:
             self.ptr = ptr

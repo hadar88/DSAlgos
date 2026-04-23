@@ -1,12 +1,3 @@
-"""
-SkipList operations for probabilistic data structures.
-
-This module provides Python wrappers for C++ SkipList operations including
-creation, insertion, deletion, and searching. Skip lists provide probabilistic
-balancing with expected O(log n) performance for search, insert, and delete operations.
-
-This module works in conjunction with the SkipListNode module.
-"""
 import os
 import ctypes
 from DataStructures_py.SkipListNode import SkipListNode
@@ -43,7 +34,15 @@ lib.Display_SkipList.argtypes = [ctypes.c_void_p]
 lib.Display_SkipList.restype = None
 
 class SkipList:
-    """A thin wrapper around a C++ SkipList pointer."""
+    """
+    SkipList operations for probabilistic data structures.
+
+    This module provides Python wrappers for C++ SkipList operations including
+    creation, insertion, deletion, and searching. Skip lists provide probabilistic
+    balancing with expected O(log n) performance for search, insert, and delete operations.
+
+    This module works in conjunction with the SkipListNode module.
+    """
     def __init__(self, ptr: ctypes.c_void_p = None, owned: bool = True) -> None:
         self.owned = owned
         if ptr:

@@ -15,6 +15,9 @@ lib = ctypes.CDLL(os.path.join(os.path.dirname(__file__), "../Build/algos.so"))
 lib.Kruskal.argtypes = [ctypes.c_void_p]
 lib.Kruskal.restype = ctypes.c_void_p
 
+lib.Prim.argtypes = [ctypes.c_void_p]
+lib.Prim.restype = ctypes.c_void_p
+
 class MinimumSpanningTree:
     """A collection of Minimum Spanning Tree algorithms."""
 
@@ -35,10 +38,35 @@ class MinimumSpanningTree:
 
         Notes
         -----
-        - Time complexity: O(E log V)
+        - Time complexity: Best: O(E + alpha(V)) when the edges are already sorted, Average: O(E log V)
         """
         if not graph:
             return None
         
         mst_ptr = lib.Kruskal(graph.ptr)
+        return Graph(ptr=mst_ptr) if mst_ptr else None
+
+    @staticmethod
+    def Prim(graph: Graph) -> Graph | None:
+        """
+        Find a Minimum Spanning Tree using Prim's algorithm.
+
+        Parameters
+        ----------
+        graph : Graph
+            The input graph.
+
+        Returns
+        -------
+        Graph
+            The Minimum Spanning Tree.
+
+        Notes
+        -----
+        - Time complexity: Best: O(E log V)
+        """
+        if not graph:
+            return None
+
+        mst_ptr = lib.Prim(graph.ptr)
         return Graph(ptr=mst_ptr) if mst_ptr else None
