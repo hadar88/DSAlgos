@@ -43,8 +43,7 @@ class SkipList:
 
     This module works in conjunction with the SkipListNode module.
     """
-    def __init__(self, ptr: ctypes.c_void_p = None, owned: bool = True) -> None:
-        self.owned = owned
+    def __init__(self, ptr: ctypes.c_void_p = None) -> None:
         if ptr:
             self.ptr = ptr
         else:
@@ -52,7 +51,7 @@ class SkipList:
 
     def __del__(self) -> None:
         """Automatically destroy the skip list when the object is collected."""
-        if self.owned and hasattr(self, 'ptr') and self.ptr:
+        if hasattr(self, 'ptr') and self.ptr:
             lib.Destroy_SkipList(self.ptr)
             self.ptr = None
 
