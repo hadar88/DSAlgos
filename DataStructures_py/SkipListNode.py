@@ -61,7 +61,7 @@ class SkipListNode:
             lib.Destroy_SkipListNode(self.ptr)
             self.ptr = None
 
-    def GetData(self) -> int:
+    def GetData(self) -> int | float:
         """Get the data value stored in this node."""
         data = lib.GetData_SkipListNode(self.ptr)
         return INT_MIN if data == C_INT_MIN else data

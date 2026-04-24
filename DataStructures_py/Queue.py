@@ -51,7 +51,7 @@ class Queue:
         """Add a value to the rear of the queue."""
         lib.Enqueue_queue(self.ptr, value)
 
-    def Dequeue(self) -> int:
+    def Dequeue(self) -> int | float:
         """Remove and return the front element from the queue."""
         result = lib.Dequeue_queue(self.ptr)
         return INT_MIN if result == C_INT_MIN else result

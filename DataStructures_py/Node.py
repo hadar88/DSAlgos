@@ -48,7 +48,7 @@ class Node:
             lib.Destroy_node(self.ptr)
             self.ptr = None
 
-    def GetData(self) -> int:
+    def GetData(self) -> int | float:
         """Get the data value stored in this node."""
         val = lib.GetData_node(self.ptr)
         return INT_MIN if val == C_INT_MIN else val

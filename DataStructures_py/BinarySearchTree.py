@@ -99,12 +99,12 @@ class BinarySearchTree:
         ptr = lib.Search_BinarySearchTree(self.ptr, key)
         return TreeNode(ptr=ptr, owned=False) if ptr else None
 
-    def Minimum(self) -> int:
+    def Minimum(self) -> int | float:
         """Find the minimum value in the tree."""
         result = lib.Minimum_BinarySearchTree(self.ptr)
         return INT_MIN if result == C_INT_MIN else result
 
-    def Maximum(self) -> int:
+    def Maximum(self) -> int | float:
         """Find the maximum value in the tree."""
         result = lib.Maximum_BinarySearchTree(self.ptr)
         return INT_MAX if result == C_INT_MAX else result

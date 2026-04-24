@@ -102,12 +102,12 @@ class AVLTree:
         node_ptr = lib.Search_AVLTree(self.ptr, key)
         return TreeNode(ptr=node_ptr, owned=False) if node_ptr else None
 
-    def Minimum(self) -> int:
+    def Minimum(self) -> int | float:
         """Find the minimum value in the AVL tree."""
         result = lib.Minimum_AVLTree(self.ptr)
         return INT_MIN if result == C_INT_MIN else result
 
-    def Maximum(self) -> int:
+    def Maximum(self) -> int | float:
         """Find the maximum value in the AVL tree."""
         result = lib.Maximum_AVLTree(self.ptr)
         return INT_MAX if result == C_INT_MAX else result

@@ -142,10 +142,10 @@ class Graph:
         ll_ptr = lib.GetNeighbors_Graph(self.ptr, vertex)
         return LinkedList(ptr=ll_ptr) if ll_ptr else None
 
-    def GetVertices(self) -> LinkedList | None:
+    def GetVertices(self) -> LinkedList:
         """Get all vertices in the graph."""
         ll_ptr = lib.GetVertices_Graph(self.ptr)
-        return LinkedList(ptr=ll_ptr) if ll_ptr else None
+        return LinkedList(ptr=ll_ptr)
 
     def DisplayEdges(self) -> None:
         """Display all edges in the graph to console."""
@@ -189,7 +189,7 @@ class Graph:
         ll_ptr = lib.GetPath_Graph(self.ptr, start, end)
         return LinkedList(ptr=ll_ptr) if ll_ptr else None
 
-    def Distance(self, start: int, end: int) -> int:
+    def Distance(self, start: int, end: int) -> int | float:
         """Calculate the shortest distance between two vertices."""
         result = lib.Distance_Graph(self.ptr, start, end)
         return INT_MAX if result == C_INT_MAX else result
