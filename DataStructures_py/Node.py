@@ -53,7 +53,7 @@ class Node:
         val = lib.GetData_node(self.ptr)
         return INT_MIN if val == C_INT_MIN else val
 
-    def GetNext(self) -> Node:
+    def GetNext(self) -> Node | None:
         """Get the next node as a Node instance (not owned)."""
         next_ptr = lib.GetNext_node(self.ptr)
         return Node(ptr=next_ptr, owned=False) if next_ptr else None

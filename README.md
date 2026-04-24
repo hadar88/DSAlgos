@@ -42,17 +42,6 @@ A comprehensive, high-performance algorithms and data structures library featuri
 - **SkipListNode** - Specialized node for skip list implementation
 - **GraphVertex** & **Edge** - Graph components for vertex and edge operations
 
-### Basic Memory Management Pattern
-```python
-# Create → Use → Destroy pattern
-data_structure = DataStructure.Create()
-try:
-    # Use the data structure
-    DataStructure.SomeOperation(data_structure, value)
-finally:
-    DataStructure.Destroy(data_structure)  # ALWAYS cleanup!
-```
-
 ## Quick Start
 
 ### Prerequisites
@@ -131,8 +120,6 @@ Graph.PrintPath(graph, 1, 3)  # Shortest path from vertex 1 to 3
 # Perform Breadth-First Search
 colors, distances, parents = Graph.BFS(graph, 1)
 # distances will map reachable vertices to their distance, and unreachable vertices to "Infinity"
-
-Graph.Destroy(graph)  # Clean up the graph
 ```
 
 ## Project Structure

@@ -203,7 +203,7 @@ class Graph:
         """Check if the graph is connected."""
         return lib.IsConnected_Graph(self.ptr)
 
-    def GetTransposed(self) -> Graph:
+    def GetTransposed(self) -> Graph | None:
         """Get the transposed graph."""
         g_ptr = lib.GetTransposed_Graph(self.ptr)
         return Graph(ptr=g_ptr) if g_ptr else None

@@ -85,7 +85,7 @@ class BinarySearchTree:
         """Get the number of nodes in the tree."""
         return lib.Size_BinarySearchTree(self.ptr)
 
-    def GetRoot(self) -> TreeNode:
+    def GetRoot(self) -> TreeNode | None:
         """Get the root node as a TreeNode instance (not owned)."""
         ptr = lib.GetRoot_BinarySearchTree(self.ptr)
         return TreeNode(ptr=ptr, owned=False) if ptr else None

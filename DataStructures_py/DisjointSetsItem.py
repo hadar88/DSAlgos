@@ -58,7 +58,7 @@ class DisjointSetsItem:
         """Get the rank of the SetItem."""
         return lib.GetRank_SetItem(self.ptr)
 
-    def GetParent(self) -> DisjointSetsItem:
+    def GetParent(self) -> DisjointSetsItem | None:
         """Get the parent of the SetItem (not owned)."""
         parent_ptr = lib.GetParent_SetItem(self.ptr)
         return DisjointSetsItem(ptr=parent_ptr, owned=False) if parent_ptr else None

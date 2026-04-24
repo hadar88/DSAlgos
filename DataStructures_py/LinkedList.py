@@ -52,7 +52,7 @@ class LinkedList:
             lib.Destroy_linkedlist(self.ptr)
             self.ptr = None
 
-    def GetHead(self) -> Node:
+    def GetHead(self) -> Node | None:
         """Get the head node as a Node instance (not owned)."""
         ptr = lib.GetHead_linkedlist(self.ptr)
         return Node(ptr=ptr, owned=False) if ptr else None

@@ -88,7 +88,7 @@ class AVLTree:
         """Get the number of nodes in the AVL tree."""
         return lib.Size_AVLTree(self.ptr)
 
-    def GetRoot(self) -> TreeNode:
+    def GetRoot(self) -> TreeNode | None:
         """Get the root node of the AVL tree (not owned)."""
         root_ptr = lib.GetRoot_AVLTree(self.ptr)
         return TreeNode(ptr=root_ptr, owned=False) if root_ptr else None
