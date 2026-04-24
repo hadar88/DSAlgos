@@ -58,7 +58,7 @@ class PriorityQueue:
             lib.Destroy_PriorityQueue(self.ptr)
             self.ptr = None
 
-    def IndexOf(self, key: int) -> int:
+    def IndexOf(self, key: float) -> int:
         """Find the index of a given key in the priority queue."""
         return lib.IndexOf_PriorityQueue(self.ptr, key)
 
@@ -66,21 +66,21 @@ class PriorityQueue:
         """Get the number of elements in the priority queue."""
         return lib.GetSize_PriorityQueue(self.ptr)
 
-    def Top(self) -> int:
+    def Top(self) -> float:
         """Get the maximum element (highest priority) from the priority queue."""
         result = lib.Top_PriorityQueue(self.ptr)
         return INT_MIN if result == C_INT_MIN else result
 
-    def ExtractTop(self) -> int:
+    def ExtractTop(self) -> float:
         """Remove and return the maximum element from the priority queue."""
         result = lib.ExtractTop_PriorityQueue(self.ptr)
         return INT_MIN if result == C_INT_MIN else result
 
-    def UpdateKey(self, index: int, value: int) -> None:
+    def UpdateKey(self, index: int, value: float) -> None:
         """Increase the priority of an element at a specific index."""
         lib.UpdateKey_PriorityQueue(self.ptr, index, value)
 
-    def Insert(self, value: int) -> None:
+    def Insert(self, value: float) -> None:
         """Insert a new element into the priority queue."""
         lib.Insert_PriorityQueue(self.ptr, value)
 

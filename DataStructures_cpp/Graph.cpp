@@ -187,7 +187,7 @@ class Graph{
                     edges.erase(it);
                     break;
                 }
-                else if(e->GetV() == u && e->GetU() == v){
+                else if(!directed && e->GetV() == u && e->GetU() == v){
                     delete e;
                     edges.erase(it);
                     break;
