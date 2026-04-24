@@ -2,19 +2,34 @@ class Edge{
     private:
         int v;
         int u;
+        double weight;
+        bool directed;
 
     public:
-        Edge(int v, int u): v(v), u(u) {}
+        Edge(int v, int u, bool directed): v(v), u(u), weight(0), directed(directed) {}
 
-        int getV(){
+        Edge(int v, int u, double weight, bool directed): v(v), u(u), weight(weight), directed(directed) {}
+
+        int GetV(){
             return v;
         }
 
-        int getU(){
+        int GetU(){
             return u;
         }
 
-        void Display(){ 
-            std::cout << "(" << v << "," << u << ")" << std::endl;
+        double GetWeight(){
+            return weight;
+        }
+
+        void SetWeight(double weight){
+            this->weight = weight;
+        }
+
+        void Display(){
+            if(directed)
+                std::cout << "(" << v << " --> " << u << "), weight = " << weight << std::endl;
+            else
+                std::cout << "(" << v << " <--> " << u << "), weight = " << weight << std::endl;
         }
 };

@@ -42,27 +42,6 @@ A comprehensive, high-performance algorithms and data structures library featuri
 - **SkipListNode** - Specialized node for skip list implementation
 - **GraphVertex** & **Edge** - Graph components for vertex and edge operations
 
-## Memory Management
-
-⚠️ **CRITICAL**: This library uses C++ backend with manual memory management. Always call `Destroy()` functions to prevent memory leaks.
-
-### Memory Management Rules
-1. **All data structures** must be destroyed: `LinkedList.Destroy()`, `Stack.Destroy()`, `Graph.Destroy()`, etc.
-2. **Standalone nodes** must be destroyed: `Node.Destroy()`, `TreeNode.Destroy()`, `SkipListNode.Destroy()`
-3. **Graph returned objects** need special cleanup: `Graph.DestroyReturnedLinkedList()`
-4. **GetNeighbors()** returns internal pointers - do NOT delete these
-
-### Basic Memory Management Pattern
-```python
-# Create → Use → Destroy pattern
-data_structure = DataStructure.Create()
-try:
-    # Use the data structure
-    DataStructure.SomeOperation(data_structure, value)
-finally:
-    DataStructure.Destroy(data_structure)  # ALWAYS cleanup!
-```
-
 ## Quick Start
 
 ### Prerequisites
@@ -141,14 +120,7 @@ Graph.PrintPath(graph, 1, 3)  # Shortest path from vertex 1 to 3
 # Perform Breadth-First Search
 colors, distances, parents = Graph.BFS(graph, 1)
 # distances will map reachable vertices to their distance, and unreachable vertices to "Infinity"
-
-Graph.Destroy(graph)  # Clean up the graph
 ```
-
-### Special Graph Cleanup Rules
-- `Graph.GetVertices()` → `Graph.DestroyReturnedLinkedList(vertices)`
-- `Graph.GetReachableVertices()` → `Graph.DestroyReturnedLinkedList(reachable)`
-- `Graph.GetNeighbors()` → **Do NOT destroy** (internal pointer)
 
 ## Project Structure
 

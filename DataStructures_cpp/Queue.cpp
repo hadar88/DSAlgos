@@ -20,9 +20,9 @@ class Queue{
         }
 
         int Dequeue(){
-            if (list->IsEmpty()) {
+            if (list->IsEmpty())
                 throw std::runtime_error("Queue is empty");
-            }
+            
             Node<int>* head = list->GetHead();
             int item = head->GetData();
             list->Delete(item);
@@ -30,6 +30,13 @@ class Queue{
         }
 
         void Display(){
-            list->Display();
+            if (list->IsEmpty()){
+                std::cout << "Queue is empty" << std::endl;
+                return;
+            }
+            else{
+                std::cout << "The queue contains:" << std::endl;
+                list->Display();
+            }
         }
 };

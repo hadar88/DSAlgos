@@ -39,6 +39,9 @@ void Merge(int A[], int left, int mid, int right){
             j++;
         }
     }
+
+    delete[] L;
+    delete[] R;
 }
 
 void MergeSort(int A[], int left, int right){
@@ -88,4 +91,5 @@ void CountingSort(int A[], int B[], int k, int size){
         B[C[A[i]] - 1] = A[i];
         C[A[i]] = C[A[i]] -1;
     }
+    delete[] C;
 }

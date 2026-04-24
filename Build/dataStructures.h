@@ -6,6 +6,7 @@ using namespace std;
 #include <vector>
 #include <climits>
 #include <iostream>
+#include <functional>
 
 #include "../DataStructures_cpp/Node.cpp"
 #include "../DataStructures_cpp/TreeNode.cpp"
@@ -20,3 +21,5 @@ using namespace std;
 #include "../DataStructures_cpp/Edge.cpp"
 #include "../DataStructures_cpp/GraphVertex.cpp"
 #include "../DataStructures_cpp/Graph.cpp"
+#include "../DataStructures_cpp/DisjointSetsItem.cpp"
+#include "../DataStructures_cpp/DisjointSets.cpp"

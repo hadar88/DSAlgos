@@ -17,16 +17,16 @@ class SkipListNode{
         }
 
         SkipListNode* GetNext(int level){
-            if(level >= 0 && level < height){
+            if(level >= 0 && level < height)
                 return next[level];
-            }
+            
             throw std::out_of_range("Level out of range");
         }
 
         SkipListNode* GetPrev(int level){
-            if(level >= 0 && level < height){
+            if(level >= 0 && level < height)
                 return prev[level];
-            }
+            
             throw std::out_of_range("Level out of range");
         }
 

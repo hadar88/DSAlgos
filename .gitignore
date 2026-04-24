@@ -1,4 +1,7 @@
 .vscode/
 __pycache__/
+.pytest_cache/
 
-test*
+test_bin
+test.cpp
+test.py

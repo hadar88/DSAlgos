@@ -56,10 +56,8 @@ class BinarySearchTree{
         }
 
         TreeNode<int>* Search(int key){
-            if(!Exists(key)){
-                std::cout << "Key does not exist in the tree." << std::endl;
-                return nullptr;
-            }
+            if(!Exists(key))
+                throw std::runtime_error("Key does not exist in the tree.");
             
             TreeNode<int>* current = root;
 
@@ -124,7 +122,7 @@ class BinarySearchTree{
 
         void Insert(int key){
             if(Exists(key)){
-                std::cout << "Key already exists in the tree." << std::endl;
+                std::cerr << "Error: Key " << key << " already exists in the tree." << std::endl;
                 return;
             }
 
@@ -150,13 +148,13 @@ class BinarySearchTree{
 
         void Delete(int key){
             if(!Exists(key)){
-                std::cout << "Key does not exist in the tree." << std::endl;
+                std::cerr << "Error: Key " << key << " does not exist in the tree." << std::endl;
                 return;
             }
 
             TreeNode<int>* current = Search(key);
 
-            if(current->GetRight() == nullptr && current->GetLeft() == nullptr){ // Case 1: No children
+            if(current->GetRight() == nullptr && current->GetLeft() == nullptr){
                 if(current->GetParent() == nullptr) {
                     root = nullptr;
                     delete current;
@@ -172,7 +170,7 @@ class BinarySearchTree{
                     }
                 }
             }
-            else if(current->GetRight() != nullptr && current->GetLeft() == nullptr){ // Case 2: One child (right)
+            else if(current->GetRight() != nullptr && current->GetLeft() == nullptr){
                 if(current->GetParent() == nullptr){
                     root = current->GetRight();
                     root->SetParent(nullptr);
@@ -190,7 +188,7 @@ class BinarySearchTree{
                     delete current;
                 }
             }
-            else if(current->GetRight() == nullptr && current->GetLeft() != nullptr){ // Case 2: One child (left)
+            else if(current->GetRight() == nullptr && current->GetLeft() != nullptr){
                 if(current->GetParent() == nullptr){
                     root = current->GetLeft();
                     root->SetParent(nullptr);
@@ -208,7 +206,7 @@ class BinarySearchTree{
                     delete current;
                 }
             }
-            else{ // Case 3: Two children
+            else{
                 TreeNode<int>* y = Successor(current->GetData());
                 int successorData = y->GetData();
                 Delete(successorData);
@@ -250,6 +248,10 @@ class BinarySearchTree{
         }
 
         void InOrder(TreeNode<int>* current){
+            if (root == nullptr) {
+                std::cout << "The tree is empty" << std::endl;
+                return;
+            }
             if(current != nullptr){
                 InOrder(current->GetLeft());
                 std::cout << current->GetData() << " ";
@@ -261,6 +263,10 @@ class BinarySearchTree{
         }
 
         void PreOrder(TreeNode<int>* current){
+            if (root == nullptr) {
+                std::cout << "The tree is empty" << std::endl;
+                return;
+            }
             if(current != nullptr){
                 std::cout << current->GetData() << " ";
                 PreOrder(current->GetLeft());
@@ -272,6 +278,10 @@ class BinarySearchTree{
         }
 
         void PostOrder(TreeNode<int>* current){
+            if (root == nullptr) {
+                std::cout << "The tree is empty" << std::endl;
+                return;
+            }
             if(current != nullptr){
                 PostOrder(current->GetLeft());
                 PostOrder(current->GetRight());

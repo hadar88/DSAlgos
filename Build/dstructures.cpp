@@ -6,7 +6,14 @@ extern "C" {
         return new Node<int>(value);
     }
 
+    void Destroy_node(Node<int>* node){
+        delete node;
+    }
+
     int GetData_node(Node<int>* node){
+        if (node == nullptr) {
+            return INT_MIN;
+        }
         return node->GetData();
     }
 
@@ -22,13 +29,13 @@ extern "C" {
         node->SetNext(next);
     }
 
-    void Destroy_node(Node<int>* node){
-        delete node;
-    }
-
     // TreeNode
     TreeNode<int>* Create_treenode(int value){
         return new TreeNode<int>(value);
+    }
+
+    void Destroy_treenode(TreeNode<int>* node){
+        delete node;
     }
 
     int GetData_treenode(TreeNode<int>* node){
@@ -75,13 +82,13 @@ extern "C" {
         node->SetParent(parent);
     }
 
-    void Destroy_treenode(TreeNode<int>* node){
-        delete node;
-    }
-
     // LinkedList
     LinkedList* Create_linkedlist(){
         return new LinkedList();
+    }
+
+    void Destroy_linkedlist(LinkedList* list){
+        delete list;
     }
 
     Node<int>* GetHead_linkedlist(LinkedList* list){
@@ -112,13 +119,13 @@ extern "C" {
         list->Display();
     }
 
-    void Destroy_linkedlist(LinkedList* list){
-        delete list;
-    }
-
     // Stack
     Stack* Create_stack(){
         return new Stack();
+    }
+
+    void Destroy_stack(Stack* stack){
+        delete stack;
     }
 
     bool IsEmpty_stack(Stack* stack){
@@ -142,13 +149,13 @@ extern "C" {
         stack->Display();
     }
 
-    void Destroy_stack(Stack* stack){
-        delete stack;
-    }
-
     // Queue
     Queue* Create_queue(){
         return new Queue();
+    }
+
+    void Destroy_queue(Queue* queue){
+        delete queue;
     }
 
     bool IsEmpty_queue(Queue* queue){
@@ -164,26 +171,21 @@ extern "C" {
             return queue->Dequeue();
         } catch (const std::runtime_error& e) {
             std::cerr << "Error: " << e.what() << std::endl;
-            return -1;
+            return INT_MIN;
         }
     }
 
     void Display_queue(Queue* queue){
-        if (queue->IsEmpty()) {
-            std::cout << "The queue is empty" << std::endl;
-            return;
-        }
-        std::cout << "The queue contains:" << std::endl;
         queue->Display();
-    }
-
-    void Destroy_queue(Queue* queue){
-        delete queue;
     }
 
     // BinarySearchTree
     BinarySearchTree* Create_BinarySearchTree(){
         return new BinarySearchTree();
+    }
+
+    void Destroy_BinarySearchTree(BinarySearchTree* tree){
+        delete tree;
     }
 
     bool IsEmpty_BinarySearchTree(BinarySearchTree* tree){
@@ -203,7 +205,12 @@ extern "C" {
     }
 
     TreeNode<int>* Search_BinarySearchTree(BinarySearchTree* tree, int key){
-        return tree->Search(key);
+        try {
+            return tree->Search(key);
+        } catch (const std::runtime_error& e) {
+            std::cerr << "Error: " << e.what() << std::endl;
+            return nullptr;
+        }
     }
 
     int Minimum_BinarySearchTree(BinarySearchTree* tree){
@@ -274,13 +281,13 @@ extern "C" {
         tree->PostOrder(tree->GetRoot());
     }
 
-    void Destroy_BinarySearchTree(BinarySearchTree* tree){
-        delete tree;
-    }
-
     // AVLTree
     AVLTree* Create_AVLTree(){
         return new AVLTree();
+    }
+
+    void Destroy_AVLTree(AVLTree* tree){
+        delete tree;
     }
 
     bool IsEmpty_AVLTree(AVLTree* tree){
@@ -300,7 +307,12 @@ extern "C" {
     }
 
     TreeNode<int>* Search_AVLTree(AVLTree* tree, int key){
-        return tree->Search(key);
+        try {
+            return tree->Search(key);
+        } catch (const std::runtime_error& e) {
+            std::cerr << "Error: " << e.what() << std::endl;
+            return nullptr;
+        }
     }
 
     int Minimum_AVLTree(AVLTree* tree){
@@ -371,13 +383,13 @@ extern "C" {
         tree->PostOrder(tree->GetRoot());
     }
 
-    void Destroy_AVLTree(AVLTree* tree){
-        delete tree;
-    }
-
     // SkipListNode
     SkipListNode* Create_SkipListNode(int value, int h){
         return new SkipListNode(value, h);
+    }
+
+    void Destroy_SkipListNode(SkipListNode* node){
+        delete node;
     }
 
     int GetData_SkipListNode(SkipListNode* node){
@@ -424,13 +436,13 @@ extern "C" {
         node->SetPrev(level, prev);
     }
 
-    void Destroy_SkipListNode(SkipListNode* node){
-        delete node;
-    }
-
     // SkipList
     SkipList* Create_SkipList(){
         return new SkipList();
+    }
+
+    void Destroy_SkipList(SkipList* skipList){
+        delete skipList;
     }
 
     bool IsEmpty_SkipList(SkipList* skipList){
@@ -461,16 +473,16 @@ extern "C" {
         skipList->Display();
     }
 
-    void Destroy_SkipList(SkipList* skipList){
-        delete skipList;
-    }
-
     // PriorityQueue
-    PriorityQueue* Create_PriorityQueue(){
-        return new PriorityQueue();
+    PriorityQueue* Create_PriorityQueue(bool isMax = true){
+        return new PriorityQueue(isMax);
     }
 
-    int IndexOf_PriorityQueue(PriorityQueue* pq, int key){
+    void Destroy_PriorityQueue(PriorityQueue* pq){
+        delete pq;
+    }
+
+    int IndexOf_PriorityQueue(PriorityQueue* pq, double key){
         return pq->IndexOf(key);
     }
 
@@ -478,33 +490,30 @@ extern "C" {
         return pq->GetSize();
     }
 
-    int Maximum_PriorityQueue(PriorityQueue* pq){
-        return pq->Maximum();
-    }
-
-    int ExtractMax_PriorityQueue(PriorityQueue* pq){
+    double Top_PriorityQueue(PriorityQueue* pq){
         try {
-            return pq->ExtractMax();
+            return pq->Top();
         } catch (const std::out_of_range& e) {
             std::cerr << "Error: " << e.what() << std::endl;
             return INT_MIN;
         }
     }
 
-    void IncreaseKey_PriorityQueue(PriorityQueue* pq, int i, int key){
+    double ExtractTop_PriorityQueue(PriorityQueue* pq){
         try {
-            pq->IncreaseKey(i, key);
-        } catch (const std::invalid_argument& e) {
+            return pq->ExtractTop();
+        } catch (const std::out_of_range& e) {
             std::cerr << "Error: " << e.what() << std::endl;
+            return INT_MIN;
         }
     }
 
-    void Insert_PriorityQueue(PriorityQueue* pq, int key){
-        try {
-            pq->Insert(key);
-        } catch (const std::overflow_error& e) {
-            std::cerr << "Error: " << e.what() << std::endl;
-        }
+    void UpdateKey_PriorityQueue(PriorityQueue* pq, int i, double key){
+        pq->UpdateKey(i, key);
+    }
+
+    void Insert_PriorityQueue(PriorityQueue* pq, double key){
+        pq->Insert(key);
     }
 
     void HeapSort_PriorityQueue(PriorityQueue* pq){
@@ -515,13 +524,13 @@ extern "C" {
         pq->Display();
     }
 
-    void Destroy_PriorityQueue(PriorityQueue* pq){
-        delete pq;
-    }
-
     // Graph
     Graph* Create_Graph(bool directed){
         return new Graph(directed);
+    }
+
+    void Destroy_Graph(Graph* graph){
+        delete graph;
     }
 
     bool IsDirected_Graph(Graph* graph){
@@ -540,8 +549,12 @@ extern "C" {
         graph->DeleteVertex(value);
     }
 
-    void AddEdge_Graph(Graph* graph, int v, int u){
-        graph->AddEdge(v, u);
+    void CreateEdge_Graph(Graph* graph, int v, int u){
+        graph->CreateEdge(v, u);
+    }
+
+    void CreateWeightedEdge_Graph(Graph* graph, int v, int u, double weight){
+        graph->CreateEdge(v, u, weight);
     }
 
     void DeleteEdge_Graph(Graph* graph, int v, int u){
@@ -551,19 +564,14 @@ extern "C" {
     LinkedList* GetNeighbors_Graph(Graph* graph, int value){
         try {
             return graph->GetNeighbors(value);
-        } catch (const std::invalid_argument& e) {
+        } catch (const std::runtime_error& e) {
             std::cerr << "Error: " << e.what() << std::endl;
             return nullptr;
         }
     }
 
     LinkedList* GetVertices_Graph(Graph* graph){
-        try {
-            return graph->GetVertices();
-        } catch (const std::runtime_error& e) {
-            std::cerr << "Error: " << e.what() << std::endl;
-            return nullptr;
-        }
+        return graph->GetVertices();
     }
 
     void DisplayEdges_Graph(Graph* graph){
@@ -622,8 +630,16 @@ extern "C" {
         delete res;
     }
 
-    void PrintPath_Graph(Graph* graph, int s, int v){
-        graph->PrintPath(s, v);
+    LinkedList* GetPath_Graph(Graph* graph, int s, int v){
+        try {
+            return graph->GetPath(s, v);
+        } catch (const std::invalid_argument& e) {
+            std::cerr << "Error: " << e.what() << std::endl;
+            return nullptr;
+        } catch (const std::runtime_error& e) {
+            std::cerr << "Error: " << e.what() << std::endl;
+            return nullptr;
+        }
     }
 
     int Distance_Graph(Graph* graph, int s, int t){
@@ -644,11 +660,87 @@ extern "C" {
         }
     }
 
+    bool IsConnected_Graph(Graph* graph){
+        return graph->IsConnected();
+    }
+
+    Graph* GetTransposed_Graph(Graph* graph){
+        return graph->GetTransposed();
+    }
+
+    double EdgeWeight_Graph(Graph* graph, int v, int u){
+        try {
+            return graph->EdgeWeight(v, u);
+        } catch (const std::invalid_argument& e) {
+            std::cerr << "Error: " << e.what() << std::endl;
+            return -1;
+        }
+    }
+
+    double GraphWeight_Graph(Graph* graph){
+        return graph->GraphWeight();
+    }
+
     void Clear_Graph(Graph* graph){
         graph->Clear();
     }
 
-    void Destroy_Graph(Graph* graph){
-        delete graph;
+    // SetItem
+    SetItem* Create_SetItem(int value){
+        return new SetItem(value, 0);
+    }
+
+    void Destroy_SetItem(SetItem* item){
+        delete item;
+    }
+
+    int GetData_SetItem(SetItem* item){
+        return item->GetData();
+    }
+
+    int GetRank_SetItem(SetItem* item){
+        return item->GetRank();
+    }
+
+    SetItem* GetParent_SetItem(SetItem* item){
+        return item->GetParent();
+    }
+
+    void SetRank_SetItem(SetItem* item, int rank){
+        item->SetRank(rank);
+    }
+
+    void SetParent_SetItem(SetItem* item, SetItem* parent){
+        item->SetParent(parent);
+    }
+
+    // DisjointSets
+    DisjointSets* Create_DisjointSets(){
+        return new DisjointSets();
+    }
+
+    void Destroy_DisjointSets(DisjointSets* ds){
+        delete ds;
+    }
+
+    void MakeSet_DisjointSets(DisjointSets* ds, int x){
+        ds->MakeSet(x);
+    }
+
+    SetItem* FindSet_DisjointSets(DisjointSets* ds, int x){
+        try{
+            return ds->FindSet(x);
+        } catch (const std::runtime_error& e) {
+            std::cerr << "Error: " << e.what() << std::endl;
+            return nullptr;
+        }
+    }
+
+    void Union_DisjointSets(DisjointSets* ds, int x, int y){
+        ds->Union(x, y);
+    }
+
+    void Display_DisjointSets(DisjointSets* ds){
+        ds->Display();
     }
 }

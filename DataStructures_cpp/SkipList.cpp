@@ -81,7 +81,7 @@ class SkipList{
 
         void Insert(int key){
             if(Search(key) != nullptr || key == INT_MIN){
-                std::cout << "Warning: " << key << " already exists." << std::endl;
+                std::cerr << "Error: Key " << key << " already exists" << std::endl;
                 return;
             }
 
@@ -122,9 +122,9 @@ class SkipList{
             if(key == INT_MIN) return;
 
             SkipListNode* x = Search(key);
-            if(x == nullptr){ 
-                std::cout << "WARNING: " << key << " not found!" << std::endl;
-                return; 
+            if(x == nullptr) {
+                std::cerr << "Error: Key " << key << " not found" << std::endl;
+                return;
             }
 
             for(int i = 0; i < x->GetHeight(); i++){
@@ -138,8 +138,6 @@ class SkipList{
                     next->SetPrev(i, prev);
                 }
             }
-
-            // std::cout << "Delete " << key << std::endl;
 
             int newHeight = 1;
 
@@ -165,10 +163,11 @@ class SkipList{
         }
 
         void Display() {
-            if (head == nullptr) {
+            if (head == nullptr){
                 std::cout << "The skip list is empty" << std::endl;
                 return;
             }
+            
             std::cout << "The skip list contains: " << std::endl;
             for (int i = height - 1; i >= 0; i--) {
                 std::cout << "[ ]";
