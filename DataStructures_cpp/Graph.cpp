@@ -180,17 +180,16 @@ class Graph{
                         q->DeleteNeighbor(v);
             }
 
-            for(Edge* e : edges){
+            for(auto it = edges.begin(); it != edges.end(); ++it){
+                Edge* e = *it;
                 if(e->GetV() == v && e->GetU() == u){
-                    int index = FindEdgeIndex(v, u);
-                    delete edges[index];
-                    edges.erase(edges.begin() + index);
+                    delete e;
+                    edges.erase(it);
                     break;
                 }
                 else if(e->GetV() == u && e->GetU() == v){
-                    int index = FindEdgeIndex(u, v);
-                    delete edges[index];
-                    edges.erase(edges.begin() + index);
+                    delete e;
+                    edges.erase(it);
                     break;
                 }
             }

@@ -12,7 +12,7 @@ lib.Create_PriorityQueue.restype = ctypes.c_void_p
 lib.Destroy_PriorityQueue.argtypes = [ctypes.c_void_p]
 lib.Destroy_PriorityQueue.restype = None
 
-lib.IndexOf_PriorityQueue.argtypes = [ctypes.c_void_p, ctypes.c_int]
+lib.IndexOf_PriorityQueue.argtypes = [ctypes.c_void_p, ctypes.c_double]
 lib.IndexOf_PriorityQueue.restype = ctypes.c_int
 
 lib.GetSize_PriorityQueue.argtypes = [ctypes.c_void_p]

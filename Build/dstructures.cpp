@@ -482,7 +482,7 @@ extern "C" {
         delete pq;
     }
 
-    int IndexOf_PriorityQueue(PriorityQueue* pq, int key){
+    int IndexOf_PriorityQueue(PriorityQueue* pq, double key){
         return pq->IndexOf(key);
     }
 

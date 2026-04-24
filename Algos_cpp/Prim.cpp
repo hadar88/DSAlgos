@@ -45,15 +45,16 @@ Graph* PrimMST(Graph* g){
 
         LinkedList* neighbors = g->GetNeighbors(u);
         Node<int>* current = neighbors->GetHead();
-        
         while(current){
             int v = current->GetData();
             
             double edge_weight = g->EdgeWeight(u, v);  
-            if(pq->IndexOf(keys[v]) != -1 && edge_weight < keys[v]){
+            
+            auto key_it = keys.find(v);
+            if(key_it != keys.end() && pq->IndexOf(key_it->second) != -1 && edge_weight < key_it->second){
                 parents[v] = u;
-                pq->UpdateKey(pq->IndexOf(keys[v]), edge_weight);
-                keys[v] = edge_weight;
+                pq->UpdateKey(pq->IndexOf(key_it->second), edge_weight);
+                key_it->second = edge_weight;
             }
             
             current = current->GetNext();
