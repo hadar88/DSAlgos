@@ -6,10 +6,10 @@ Kruskal's algorithm.
 """
 import os
 import ctypes
-from DataStructures import Graph
+from ..DataStructures.Graph import Graph
 
 # Load the library
-lib = ctypes.CDLL(os.path.join(os.path.dirname(__file__), "../Build/algos.so"))
+lib = ctypes.CDLL(os.path.join(os.path.dirname(__file__), "algos.so"))
 
 # --- C Library Signatures ---
 lib.Kruskal.argtypes = [ctypes.c_void_p]
@@ -18,7 +18,7 @@ lib.Kruskal.restype = ctypes.c_void_p
 lib.Prim.argtypes = [ctypes.c_void_p]
 lib.Prim.restype = ctypes.c_void_p
 
-class MinimumSpanningTree:
+class MST:
     """A collection of Minimum Spanning Tree algorithms."""
 
     @staticmethod

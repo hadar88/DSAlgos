@@ -2,11 +2,11 @@ from __future__ import annotations
 
 import os
 import ctypes
-from DataStructures_py.Utils import INT_MAX, C_INT_MAX
-from DataStructures_py.LinkedList import LinkedList
+from ..Utils import INT_MAX, C_INT_MAX
+from .LinkedList import LinkedList
 
 # Load the library
-lib = ctypes.CDLL(os.path.join(os.path.dirname(__file__), "../Build/dstructures.so"))
+lib = ctypes.CDLL(os.path.join(os.path.dirname(__file__), "dstructures.so"))
 
 # --- C Library Signatures ---
 lib.Create_Graph.argtypes = [ctypes.c_bool]
@@ -30,7 +30,12 @@ lib.DeleteVertex_Graph.restype = None
 lib.CreateEdge_Graph.argtypes = [ctypes.c_void_p, ctypes.c_int, ctypes.c_int]
 lib.CreateEdge_Graph.restype = None
 
-lib.CreateWeightedEdge_Graph.argtypes = [ctypes.c_void_p, ctypes.c_int, ctypes.c_int, ctypes.c_double]
+lib.CreateWeightedEdge_Graph.argtypes = [
+    ctypes.c_void_p,
+    ctypes.c_int,
+    ctypes.c_int,
+    ctypes.c_double,
+]
 lib.CreateWeightedEdge_Graph.restype = None
 
 lib.DeleteEdge_Graph.argtypes = [ctypes.c_void_p, ctypes.c_int, ctypes.c_int]
@@ -87,6 +92,7 @@ lib.GraphWeight_Graph.restype = ctypes.c_double
 lib.Clear_Graph.argtypes = [ctypes.c_void_p]
 lib.Clear_Graph.restype = None
 
+
 class Graph:
     """
     Graph operations for graph data structures.
@@ -97,6 +103,7 @@ class Graph:
 
     This module works in conjunction with the LinkedList module.
     """
+
     def __init__(self, directed: bool = False, ptr: ctypes.c_void_p = None) -> None:
         if ptr:
             self.ptr = ptr
@@ -105,7 +112,7 @@ class Graph:
 
     def __del__(self) -> None:
         """Automatically destroy the graph when the object is collected."""
-        if hasattr(self, 'ptr') and self.ptr:
+        if hasattr(self, "ptr") and self.ptr:
             lib.Destroy_Graph(self.ptr)
             self.ptr = None
 
@@ -129,7 +136,9 @@ class Graph:
         """Add an edge between two vertices in the graph."""
         lib.CreateEdge_Graph(self.ptr, from_vertex, to_vertex)
 
-    def CreateWeightedEdge(self, from_vertex: int, to_vertex: int, weight: float) -> None:
+    def CreateWeightedEdge(
+        self, from_vertex: int, to_vertex: int, weight: float
+    ) -> None:
         """Add a weighted edge between two vertices in the graph."""
         lib.CreateWeightedEdge_Graph(self.ptr, from_vertex, to_vertex, weight)
 
@@ -155,31 +164,33 @@ class Graph:
         """Display the graph structure to console."""
         lib.Display_Graph(self.ptr)
 
-    def BFS(self, vertex: int) -> tuple[dict[int, str], dict[int, int], dict[int, int | None]]:
+    def BFS(
+        self, vertex: int
+    ) -> tuple[dict[int, str], dict[int, int], dict[int, int | None]]:
         """Perform Breadth-First Search (BFS) on the graph."""
         res_ptr = lib.BFS_Graph(self.ptr, vertex)
         if res_ptr is None:
             return {}, {}, {}
-        
+
         colors = {}
         distances = {}
         parents = {}
-        
+
         try:
             ll = self.GetVertices()
             if ll:
                 current = ll.GetHead()
                 while current:
                     v_val = current.GetData()
-                    colors[v_val] = lib.GetBFSColor(res_ptr, v_val).decode('utf-8')
+                    colors[v_val] = lib.GetBFSColor(res_ptr, v_val).decode("utf-8")
                     dist = lib.GetBFSDistance(res_ptr, v_val)
                     distances[v_val] = dist if dist != C_INT_MAX else INT_MAX
-                    
+
                     parent_val = lib.GetBFSParent(res_ptr, v_val)
                     parents[v_val] = parent_val if parent_val != -1 else None
-                    
+
                     current = current.GetNext()
-            
+
             return colors, distances, parents
         finally:
             lib.Destroy_BFSResult(res_ptr)

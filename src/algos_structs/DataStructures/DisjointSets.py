@@ -1,9 +1,9 @@
 import os
 import ctypes
-from DataStructures_py.DisjointSetsItem import DisjointSetsItem
+from .DisjointSetsItem import DisjointSetsItem
 
 # Load the library
-lib = ctypes.CDLL(os.path.join(os.path.dirname(__file__), "../Build/dstructures.so"))
+lib = ctypes.CDLL(os.path.join(os.path.dirname(__file__), "dstructures.so"))
 
 # --- C Library Signatures ---
 lib.Create_DisjointSets.argtypes = []
@@ -24,6 +24,7 @@ lib.Union_DisjointSets.restype = None
 lib.Display_DisjointSets.argtypes = [ctypes.c_void_p]
 lib.Display_DisjointSets.restype = None
 
+
 class DisjointSets:
     """
     DisjointSets operations for disjoint sets.
@@ -31,6 +32,7 @@ class DisjointSets:
     This module provides Python wrappers for C++ DisjointSets operations including
     creation, destruction, MakeSet, FindSet, Union, and Display operations.
     """
+
     def __init__(self, ptr: ctypes.c_void_p = None) -> None:
         if ptr:
             self.ptr = ptr
@@ -39,7 +41,7 @@ class DisjointSets:
 
     def __del__(self) -> None:
         """Automatically destroy the DisjointSets when the object is collected."""
-        if hasattr(self, 'ptr') and self.ptr:
+        if hasattr(self, "ptr") and self.ptr:
             lib.Destroy_DisjointSets(self.ptr)
             self.ptr = None
 

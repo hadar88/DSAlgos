@@ -2,10 +2,10 @@ from __future__ import annotations
 
 import os
 import ctypes
-from DataStructures_py.Utils import INT_MIN, C_INT_MIN
+from ..Utils import INT_MIN, C_INT_MIN
 
 # Load the library
-lib = ctypes.CDLL(os.path.join(os.path.dirname(__file__), "../Build/dstructures.so"))
+lib = ctypes.CDLL(os.path.join(os.path.dirname(__file__), "dstructures.so"))
 
 # --- C Library Signatures ---
 lib.Create_SkipListNode.argtypes = [ctypes.c_int, ctypes.c_int]
@@ -38,6 +38,7 @@ lib.SetNext_SkipListNode.restype = None
 lib.SetPrev_SkipListNode.argtypes = [ctypes.c_void_p, ctypes.c_int, ctypes.c_void_p]
 lib.SetPrev_SkipListNode.restype = None
 
+
 class SkipListNode:
     """
     SkipListNode operations for skip list data structures.
@@ -46,18 +47,27 @@ class SkipListNode:
     creation, data access, and navigation through multiple levels. Skip list nodes
     support probabilistic data structure operations with multiple forward/backward pointers.
     """
-    def __init__(self, value: int | None = None, height: int | None = None, ptr: ctypes.c_void_p = None, owned: bool = True) -> None:
+
+    def __init__(
+        self,
+        value: int | None = None,
+        height: int | None = None,
+        ptr: ctypes.c_void_p = None,
+        owned: bool = True,
+    ) -> None:
         self.owned = owned
         if ptr:
             self.ptr = ptr
         else:
             if value is None or height is None:
-                raise ValueError("value and height must be provided when ptr is not supplied")
+                raise ValueError(
+                    "value and height must be provided when ptr is not supplied"
+                )
             self.ptr = lib.Create_SkipListNode(value, height)
 
     def __del__(self) -> None:
         """Automatically destroy the skip list node when the object is collected."""
-        if self.owned and hasattr(self, 'ptr') and self.ptr:
+        if self.owned and hasattr(self, "ptr") and self.ptr:
             lib.Destroy_SkipListNode(self.ptr)
             self.ptr = None
 

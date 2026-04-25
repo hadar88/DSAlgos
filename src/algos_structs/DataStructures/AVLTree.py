@@ -1,10 +1,10 @@
 import os
 import ctypes
-from DataStructures_py.Utils import INT_MAX, INT_MIN, C_INT_MAX, C_INT_MIN
-from DataStructures_py.TreeNode import TreeNode
+from ..Utils import INT_MAX, INT_MIN, C_INT_MAX, C_INT_MIN
+from .TreeNode import TreeNode
 
 # Load the library
-lib = ctypes.CDLL(os.path.join(os.path.dirname(__file__), "../Build/dstructures.so"))
+lib = ctypes.CDLL(os.path.join(os.path.dirname(__file__), "dstructures.so"))
 
 # --- C Library Signatures ---
 lib.Create_AVLTree.argtypes = []
@@ -58,6 +58,7 @@ lib.PreOrder_AVLTree.restype = None
 lib.PostOrder_AVLTree.argtypes = [ctypes.c_void_p]
 lib.PostOrder_AVLTree.restype = None
 
+
 class AVLTree:
     """
     AVL Tree operations for self-balancing binary search trees.
@@ -68,6 +69,7 @@ class AVLTree:
 
     This module works in conjunction with the TreeNode module.
     """
+
     def __init__(self, ptr: ctypes.c_void_p = None) -> None:
         if ptr:
             self.ptr = ptr
@@ -76,7 +78,7 @@ class AVLTree:
 
     def __del__(self) -> None:
         """Automatically destroy the AVL tree when the object is collected."""
-        if hasattr(self, 'ptr') and self.ptr:
+        if hasattr(self, "ptr") and self.ptr:
             lib.Destroy_AVLTree(self.ptr)
             self.ptr = None
 

@@ -1,9 +1,9 @@
 import os
 import ctypes
-from DataStructures_py.Utils import INT_MIN, C_INT_MIN
+from ..Utils import INT_MIN, C_INT_MIN
 
 # Load the library
-lib = ctypes.CDLL(os.path.join(os.path.dirname(__file__), "../Build/dstructures.so"))
+lib = ctypes.CDLL(os.path.join(os.path.dirname(__file__), "dstructures.so"))
 
 # --- C Library Signatures ---
 lib.Create_PriorityQueue.argtypes = [ctypes.c_bool]
@@ -36,6 +36,7 @@ lib.HeapSort_PriorityQueue.restype = None
 lib.Display_PriorityQueue.argtypes = [ctypes.c_void_p]
 lib.Display_PriorityQueue.restype = None
 
+
 class PriorityQueue:
     """
     PriorityQueue operations for heap-based priority queue data structures.
@@ -46,6 +47,7 @@ class PriorityQueue:
     Implemented by default as a Max Heap but can be used as a Min Heap by passing
     isMax=False to the constructor
     """
+
     def __init__(self, isMax: bool = True, ptr: ctypes.c_void_p = None) -> None:
         if ptr:
             self.ptr = ptr
@@ -54,7 +56,7 @@ class PriorityQueue:
 
     def __del__(self) -> None:
         """Automatically destroy the priority queue when the object is collected."""
-        if hasattr(self, 'ptr') and self.ptr:
+        if hasattr(self, "ptr") and self.ptr:
             lib.Destroy_PriorityQueue(self.ptr)
             self.ptr = None
 

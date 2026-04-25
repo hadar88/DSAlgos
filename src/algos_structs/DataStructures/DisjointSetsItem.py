@@ -4,7 +4,7 @@ import os
 import ctypes
 
 # Load the library
-lib = ctypes.CDLL(os.path.join(os.path.dirname(__file__), "../Build/dstructures.so"))
+lib = ctypes.CDLL(os.path.join(os.path.dirname(__file__), "dstructures.so"))
 
 # --- C Library Signatures ---
 lib.Create_SetItem.argtypes = [ctypes.c_int]
@@ -28,6 +28,7 @@ lib.SetRank_SetItem.restype = None
 lib.SetParent_SetItem.argtypes = [ctypes.c_void_p, ctypes.c_void_p]
 lib.SetParent_SetItem.restype = None
 
+
 class DisjointSetsItem:
     """
     SetItem operations for disjoint sets.
@@ -35,7 +36,10 @@ class DisjointSetsItem:
     This module provides Python wrappers for C++ SetItem operations including
     creation, data access, and pointer manipulation for SetItems.
     """
-    def __init__(self, value: int = None, ptr : ctypes.c_void_p = None, owned: bool = True) -> None:
+
+    def __init__(
+        self, value: int = None, ptr: ctypes.c_void_p = None, owned: bool = True
+    ) -> None:
         self.owned = owned
         if ptr:
             self.ptr = ptr
@@ -46,7 +50,7 @@ class DisjointSetsItem:
 
     def __del__(self) -> None:
         """Automatically destroy the SetItem when the object is collected."""
-        if self.owned and hasattr(self, 'ptr') and self.ptr:
+        if self.owned and hasattr(self, "ptr") and self.ptr:
             lib.Destroy_SetItem(self.ptr)
             self.ptr = None
 

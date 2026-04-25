@@ -8,7 +8,7 @@ import os
 import ctypes
 
 # Load the library
-lib = ctypes.CDLL(os.path.join(os.path.dirname(__file__), "../Build/algos.so"))
+lib = ctypes.CDLL(os.path.join(os.path.dirname(__file__), "algos.so"))
 
 # --- C Library Signatures ---
 lib.Insertion.argtypes = [ctypes.POINTER(ctypes.c_int), ctypes.c_int]
