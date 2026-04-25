@@ -2,7 +2,7 @@ import os
 import ctypes
 
 # Load the library
-lib = ctypes.CDLL(os.path.join(os.path.dirname(__file__), "../Build/dstructures.so"))
+lib = ctypes.CDLL(os.path.join(os.path.dirname(__file__), "dstructures.so"))
 
 # --- C Library Signatures ---
 lib.Create_stack.argtypes = []
@@ -23,6 +23,7 @@ lib.Pop_stack.restype = ctypes.c_int
 lib.Display_stack.argtypes = [ctypes.c_void_p]
 lib.Display_stack.restype = None
 
+
 class Stack:
     """
     Stack operations for LIFO (Last In, First Out) data structures.
@@ -30,6 +31,7 @@ class Stack:
     This module provides Python wrappers for C++ stack operations.
     All operations are encapsulated within the Stack class.
     """
+
     def __init__(self, ptr: ctypes.c_void_p = None) -> None:
         if ptr is not None:
             self.ptr = ptr
@@ -38,7 +40,7 @@ class Stack:
 
     def __del__(self) -> None:
         """Automatically destroy the stack when the object is collected."""
-        if hasattr(self, 'ptr') and self.ptr:
+        if hasattr(self, "ptr") and self.ptr:
             lib.Destroy_stack(self.ptr)
             self.ptr = None
 

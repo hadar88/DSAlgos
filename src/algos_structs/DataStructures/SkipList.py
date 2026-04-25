@@ -1,9 +1,9 @@
 import os
 import ctypes
-from DataStructures_py.SkipListNode import SkipListNode
+from .SkipListNode import SkipListNode
 
 # Load the library
-lib = ctypes.CDLL(os.path.join(os.path.dirname(__file__), "../Build/dstructures.so"))
+lib = ctypes.CDLL(os.path.join(os.path.dirname(__file__), "dstructures.so"))
 
 # --- C Library Signatures ---
 lib.Create_SkipList.argtypes = None
@@ -33,6 +33,7 @@ lib.Delete_SkipList.restype = None
 lib.Display_SkipList.argtypes = [ctypes.c_void_p]
 lib.Display_SkipList.restype = None
 
+
 class SkipList:
     """
     SkipList operations for probabilistic data structures.
@@ -43,6 +44,7 @@ class SkipList:
 
     This module works in conjunction with the SkipListNode module.
     """
+
     def __init__(self, ptr: ctypes.c_void_p = None) -> None:
         if ptr:
             self.ptr = ptr
@@ -51,7 +53,7 @@ class SkipList:
 
     def __del__(self) -> None:
         """Automatically destroy the skip list when the object is collected."""
-        if hasattr(self, 'ptr') and self.ptr:
+        if hasattr(self, "ptr") and self.ptr:
             lib.Destroy_SkipList(self.ptr)
             self.ptr = None
 

@@ -1,0 +1,21 @@
+[build-system]
+requires = ["setuptools>=80.9.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "algos-structs"
+version = "0.1.0"
+description = "Data structures and algorithms library"
+authors = [{ name = "Hadar Gantz", email = "hadargantz@gmail.com" }]
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = []
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools]
+include-package-data = true
+
+[tool.setuptools.package-data]
+algos_structs = ["**/*.so", "py.typed"]

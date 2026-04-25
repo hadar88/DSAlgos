@@ -1,10 +1,10 @@
 import os
 import ctypes
-from DataStructures_py.Utils import INT_MAX, INT_MIN, C_INT_MAX, C_INT_MIN
-from DataStructures_py.TreeNode import TreeNode
+from ..Utils import INT_MAX, INT_MIN, C_INT_MAX, C_INT_MIN
+from .TreeNode import TreeNode
 
 # Load the library
-lib = ctypes.CDLL(os.path.join(os.path.dirname(__file__), "../Build/dstructures.so"))
+lib = ctypes.CDLL(os.path.join(os.path.dirname(__file__), "dstructures.so"))
 
 # --- C Library Signatures ---
 lib.Create_BinarySearchTree.argtypes = []
@@ -58,6 +58,7 @@ lib.PreOrder_BinarySearchTree.restype = None
 lib.PostOrder_BinarySearchTree.argtypes = [ctypes.c_void_p]
 lib.PostOrder_BinarySearchTree.restype = None
 
+
 class BinarySearchTree:
     """
     Binary Search Tree operations for ordered tree data structures.
@@ -65,6 +66,7 @@ class BinarySearchTree:
     This module provides Python wrappers for C++ Binary Search Tree operations.
     All operations are encapsulated within the BinarySearchTree class.
     """
+
     def __init__(self, ptr: ctypes.c_void_p = None) -> None:
         if ptr is not None:
             self.ptr = ptr
@@ -73,7 +75,7 @@ class BinarySearchTree:
 
     def __del__(self) -> None:
         """Automatically destroy the tree when the object is collected."""
-        if hasattr(self, 'ptr') and self.ptr:
+        if hasattr(self, "ptr") and self.ptr:
             lib.Destroy_BinarySearchTree(self.ptr)
             self.ptr = None
 

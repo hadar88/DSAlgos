@@ -1,0 +1,1 @@
+# Marker file for PEP 561. This tells IDEs and type checkers that this package contains inline type hints and docstrings.

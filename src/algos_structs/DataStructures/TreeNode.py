@@ -2,10 +2,10 @@ from __future__ import annotations
 
 import os
 import ctypes
-from DataStructures_py.Utils import INT_MIN, C_INT_MIN
+from ..Utils import INT_MIN, C_INT_MIN
 
 # Load the library
-lib = ctypes.CDLL(os.path.join(os.path.dirname(__file__), "../Build/dstructures.so"))
+lib = ctypes.CDLL(os.path.join(os.path.dirname(__file__), "dstructures.so"))
 
 # --- C Library Signatures ---
 lib.Create_treenode.argtypes = [ctypes.c_int]
@@ -38,6 +38,7 @@ lib.SetLeft_treenode.restype = None
 lib.SetParent_treenode.argtypes = [ctypes.c_void_p, ctypes.c_void_p]
 lib.SetParent_treenode.restype = None
 
+
 class TreeNode:
     """
     TreeNode operations for tree data structures.
@@ -45,7 +46,10 @@ class TreeNode:
     This module provides Python wrappers for C++ tree node operations.
     All operations are encapsulated within the TreeNode class.
     """
-    def __init__(self, value: int | None = None, ptr: ctypes.c_void_p = None, owned: bool = True) -> None:
+
+    def __init__(
+        self, value: int | None = None, ptr: ctypes.c_void_p = None, owned: bool = True
+    ) -> None:
         self.owned = owned
         if ptr is not None:
             self.ptr = ptr
@@ -56,7 +60,7 @@ class TreeNode:
 
     def __del__(self) -> None:
         """Automatically destroy the node only if it is owned by this object."""
-        if self.owned and hasattr(self, 'ptr') and self.ptr:
+        if self.owned and hasattr(self, "ptr") and self.ptr:
             lib.Destroy_treenode(self.ptr)
             self.ptr = None
 

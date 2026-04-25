@@ -5,3 +5,10 @@ __pycache__/
 test_bin
 test.cpp
 test.py
+
+dist/
+*.egg-info/
+
+.venv
+
+.env

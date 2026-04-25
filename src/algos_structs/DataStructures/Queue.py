@@ -1,9 +1,9 @@
 import os
 import ctypes
-from DataStructures_py.Utils import INT_MIN, C_INT_MIN
+from ..Utils import INT_MIN, C_INT_MIN
 
 # Load the library
-lib = ctypes.CDLL(os.path.join(os.path.dirname(__file__), "../Build/dstructures.so"))
+lib = ctypes.CDLL(os.path.join(os.path.dirname(__file__), "dstructures.so"))
 
 # --- C Library Signatures ---
 lib.Create_queue.argtypes = []
@@ -24,6 +24,7 @@ lib.Dequeue_queue.restype = ctypes.c_int
 lib.Display_queue.argtypes = [ctypes.c_void_p]
 lib.Display_queue.restype = None
 
+
 class Queue:
     """
     Queue operations for FIFO (First In, First Out) data structures.
@@ -31,6 +32,7 @@ class Queue:
     This module provides Python wrappers for C++ queue operations.
     All operations are encapsulated within the Queue class.
     """
+
     def __init__(self, ptr: ctypes.c_void_p = None) -> None:
         if ptr is not None:
             self.ptr = ptr
@@ -39,7 +41,7 @@ class Queue:
 
     def __del__(self) -> None:
         """Automatically destroy the queue when the object is collected."""
-        if hasattr(self, 'ptr') and self.ptr:
+        if hasattr(self, "ptr") and self.ptr:
             lib.Destroy_queue(self.ptr)
             self.ptr = None
 
